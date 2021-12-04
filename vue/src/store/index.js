@@ -59,6 +59,9 @@ export default new Vuex.Store({
       state.token = '';
       state.user = {};
       axios.defaults.headers.common = {};
+    },
+    ADD_CODE(state, example) {
+      state.examples.push(example)
     }
   }
 })

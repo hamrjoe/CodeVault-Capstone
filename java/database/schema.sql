@@ -41,7 +41,7 @@ CREATE TABLE examples (
 --    CONSTRAINT FK_examples_users FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
-INSERT INTO examples (title, language_id, code_example, is_private, attribution, is_default) VALUES ('loop', 1, 'for (int i = 0; i < 5; i++) {\nSystem.out.println(i);\n}', true, 'bob', true);
+INSERT INTO examples (title, language_id, code_example, is_private, attribution, is_default) VALUES ('loop', 1, 'for (int i = 0; i < 5; i++) {\n    System.out.println(i);\n}', true, 'bob', true);
 
 
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
