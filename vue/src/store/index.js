@@ -19,8 +19,30 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    user: currentUser || {}
-  },
+    user: currentUser || {},
+    examples: [
+      { 
+        "title": "Loop",  
+        "example_id": "1",
+        "language_id": "1",
+        "user_id": "1",
+        "isPrivate": "true",
+        "isDefault": "false",
+        "attribution": "Bob",
+        "code_example": "test code here"
+      },
+      { 
+        "title": "If Statement",  
+        "example_id": "2",
+        "language_id": "1",
+        "user_id": "1",
+        "isPrivate": "true",
+        "isDefault": "false",
+        "attribution": "Bob",
+        "code_example": "test code here"
+      }
+    ] // end of examples
+  },  // end of state
   mutations: {
     SET_AUTH_TOKEN(state, token) {
       state.token = token;
