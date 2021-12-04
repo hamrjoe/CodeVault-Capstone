@@ -34,18 +34,20 @@
       <router-link :to="{ name: 'register' }">Need an account?</router-link>
       <button type="submit">Sign in</button>
     </form>
-    <display-example/>
+   <example />
   </div>
 </template>
 
 <script>
+import Example from '../components/Example.vue';
 import authService from "../services/AuthService";
-import DisplayExample from '../components/DisplayExample.vue';
+
 
 export default {
   name: "login",
   components: {
-    DisplayExample
+    Example
+    
   },
   data() {
     return {
