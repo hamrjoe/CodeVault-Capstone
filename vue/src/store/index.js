@@ -29,7 +29,7 @@ export default new Vuex.Store({
         "isPrivate": "true",
         "isDefault": "false",
         "attribution": "Bob",
-        "code_example": "test code here"
+        "code_example": "for (int i = 0; i < 5; i++) { \n System.out.println(i); \n}  "
       },
       { 
         "title": "If Statement",  
@@ -39,7 +39,7 @@ export default new Vuex.Store({
         "isPrivate": "true",
         "isDefault": "false",
         "attribution": "Bob",
-        "code_example": "test code here"
+        "code_example": "66 6F 72 20 28 69 6E 74 20 69 20 3D 20 30 3B 20 69 20 3C 20 35 3B 20 69 2B 2B 29 20 7B 0A 20 20 20 20 20 20 53 79 73 74 65 6D 2E 6F 75 74 2E 70 72 69 6E 74 6C 6E 28 69 29 3B 0A 20 20 20 20 7D 20 20"
       }
     ] // end of examples
   },  // end of state
