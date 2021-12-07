@@ -112,5 +112,8 @@ INSERT INTO examples_tags (example_id, tag_id) VALUES (2, 1);
 INSERT INTO examples_tags (example_id, tag_id) VALUES (3, 1);
 INSERT INTO examples_tags (example_id, tag_id) VALUES (4, 3);
 INSERT INTO examples_tags (example_id, tag_id) VALUES (5, 3);
+INSERT INTO examples_tags (example_id, tag_id) VALUES (1, 1);
 
 COMMIT TRANSACTION;
+
+

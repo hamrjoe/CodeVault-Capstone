@@ -39,16 +39,13 @@
 </template>
 
 <script>
-import Example from '../components/Example.vue';
+
 import authService from "../services/AuthService";
 
 
 export default {
   name: "login",
-  components: {
-    Example
-    
-  },
+
   data() {
     return {
       user: {
