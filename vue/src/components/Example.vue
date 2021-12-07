@@ -2,7 +2,8 @@
   <div>
     <div v-for="example in examples" v-bind:key="example.exampleId">
       <p class="formatCode">{{ example.title }}</p>
-      <pre class="formatCode">{{ addNewLine(example.codeExample) }}</pre>
+      <pre class="formatCode">{{ example.codeExample }}</pre>
+      <pre class="formatCode">{{ convertFromUTF16(example.codeExample) }}</pre>
     </div>
     <form action="submit">
       <input type="text" v-model="newExample.title" />
@@ -44,11 +45,9 @@ export default {
     });
   },
   methods: {
-    addNewLine(example) {
-      return example.replaceAll("\\n", "\n");
-    },
-    escapeNewLine(example) {
-      return example.replaceAll("\\n", "\n");
+    convertFromUTF16(exampleToConvert) {
+      const stringToArray = exampleToConvert.split(',');
+      return String.fromCharCode.apply(null, stringToArray);
     },
     submitCode() {
       this.$store.commit("ADD_CODE", this.newExample);
@@ -58,5 +57,8 @@ export default {
 </script>
 
 <style>
-
+pre {
+  text-align: left;
+  border: 1px solid black;
+}
 </style>
