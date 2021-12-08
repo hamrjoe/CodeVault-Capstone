@@ -31,10 +31,10 @@
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }">Need an account?</router-link>
-      <button type="submit">Sign in</button>
+      <router-link class="routeLink" :to="{ name: 'register' }">Need an account?</router-link>
+      <b-button pill type="submit">Sign in</b-button>
     </form>
-   <example />
+   <!-- <example /> -->
   </div>
 </template>
 
@@ -77,3 +77,18 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+form {
+  color: cyan;
+  margin-left: 35%;
+  margin-right: 35%;
+}
+
+.routeLink {
+  color: cyan;
+}
+.routeLink:hover {
+  color: white;
+}
+</style>

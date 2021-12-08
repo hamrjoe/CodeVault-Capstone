@@ -11,6 +11,13 @@ export default {
 </script>
 
 <style>
+
+form {
+  color: cyan;
+  margin-left: 35%;
+  margin-right: 35%;
+}
+
 pre {
   text-align: left;
   border: 1px solid black;
@@ -21,8 +28,9 @@ pre {
 }
 .card {
   margin: 1rem;
-  margin-left: 40%;
-  margin-right: 40%;
+  padding: 0.5rem;
+  margin-left: 35%;
+  margin-right: 35%;
 }
 
 

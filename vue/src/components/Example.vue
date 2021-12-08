@@ -2,13 +2,12 @@
   <div class="background">
     <div>
     <form>
-      <input placeholder="search title" type="text" v-model="filter.title" />
-      <input placeholder="search language" type="text" v-model="filter.language" />
-      <input placeholder="search by tags" type="text" v-model="filter.tags" />
-    
-
-      
+      <input class="searchHeader" placeholder="search title" type="text" v-model="filter.title" />
+      <input class="searchHeader" placeholder="search language" type="text" v-model="filter.language" />
+      <input class="searchHeader" placeholder="search by tags" type="text" v-model="filter.tags" />
+      <b-button class="searchHeader" pill v-on:click.prevent="clearSearchInputs">Show All</b-button>
     </form>
+
     <!-- <div v-for="example in filterSnippets" v-bind:key="example.exampleId">
       <p class="formatCode">{{ example.title }}</p>
       <pre class="formatCode">{{ convertFromUTF16(example.codeExample) }}</pre>
@@ -28,9 +27,9 @@
     </div>
 
   <div class="pillbox" >
-   <b-button pill>{{example.languageName}}</b-button>
+   <b-button class="tagButton" pill v-on:click="languageTagButton(example.languageName)">{{example.languageName}}</b-button>
   <div class="tags" v-for="tag in example.tags" v-bind:key="tag.tagId">
-  <b-button pill variant="primary" >{{tag}}</b-button>
+  <b-button class="tagButton" pill variant="primary" v-on:click="tagButton(tag)">{{tag}}</b-button>
   </div>
  
   </div>
@@ -48,7 +47,8 @@ export default {
       filter: {
         title: '',
         language: '',
-        tags: ''
+        tags: '',
+        searchedTags: []
       },
       tagFilter: '',
       examples: [],
@@ -73,9 +73,19 @@ export default {
     convertFromUTF16(exampleToConvert) {
       const stringToArray = exampleToConvert.split(',');
       return String.fromCharCode.apply(null, stringToArray);
+    },
+    languageTagButton(languageOnButton) {
+      this.filter.language = languageOnButton;
+    },
+    tagButton(tagOnButton) {
+      this.filter.tags = tagOnButton;
+    },
+    clearSearchInputs() {
+      this.filter.title = "",
+      this.filter.language = "",
+      this.filter.tags = "",
+      this.filter.searchedTags = []
     }
-
-
   },
   computed: {
     filterSnippets() {
@@ -120,15 +130,23 @@ export default {
 </script>
 
 <style >
+.searchHeader {
+  margin: 4px;
+}
 
+.tagButton {
+  margin: 2px;
+}
 
 pre {
   text-align: left;
+  padding: 2px;
   border: 1px solid black;
 }
 .pillbox {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
 }
 .card {
   margin: 1rem;

@@ -96,6 +96,7 @@ INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpUL
 INSERT INTO tags (tag_name) VALUES ('If Statement'); --tag 1
 INSERT INTO tags (tag_name) VALUES ('Loop'); -- tag 2
 INSERT INTO tags (tag_name) VALUES ('Console'); -- tag 3
+INSERT INTO tags (tag_name) VALUES ('Array'); -- tag 4
 
 INSERT INTO languages (language_name) VALUES ('Java'); -- laguage 1
 INSERT INTO languages (language_name) VALUES ('JavaScript'); -- laguage 2
@@ -106,6 +107,8 @@ INSERT INTO examples (title, language_id, code_example, is_private, attribution,
 INSERT INTO examples (title, language_id, code_example, is_private, attribution, is_default) VALUES ('If else statement', 2, '105,102,32,40,116,114,117,101,41,32,123,10,32,32,47,47,100,111,32,115,116,117,102,102,59,10,125,10,101,108,115,101,32,123,10,32,32,47,47,100,111,32,111,116,104,101,114,32,115,116,117,102,102,59,10,125', true, 'bob', true);
 INSERT INTO examples (title, language_id, code_example, is_private, attribution, is_default) VALUES ('Console log', 2, '99,111,110,115,111,108,101,46,108,111,103,40,39,112,114,105,110,116,32,116,104,105,110,103,115,32,104,101,114,101,39,41', true, 'bob', true);
 INSERT INTO examples (title, language_id, code_example, is_private, attribution, is_default) VALUES ('System Out Print Line', 1, '83,121,115,116,101,109,46,111,117,116,46,112,114,105,110,116,108,110,40,39,115,97,121,32,116,104,105,110,103,115,32,104,101,114,101,39,41', true, 'bob', true);
+INSERT INTO examples (title, language_id, code_example, is_private, attribution, is_default) VALUES ('Array with Loop Output', 3, '102,114,117,105,116,115,32,61,32,91,34,97,112,112,108,101,34,44,32,34,98,97,110,97,110,97,34,44,32,34,99,104,101,114,114,121,34,93,10,102,111,114,32,120,32,105,110,32,102,114,117,105,116,115,58,10,32,32,112,114,105,110,116,40,120,41,10', true, 'bob', true);
+INSERT INTO examples (title, language_id, code_example, is_private, attribution, is_default) VALUES ('If Else Statement', 3, '97,32,61,32,51,51,10,98,32,61,32,50,48,48,10,105,102,32,98,32,62,32,97,58,10,32,32,112,114,105,110,116,40,34,98,32,105,115,32,103,114,101,97,116,101,114,32,116,104,97,110,32,97,34,41,10', true, 'bob', true);
 
 INSERT INTO examples_tags (example_id, tag_id) VALUES (1, 2);
 INSERT INTO examples_tags (example_id, tag_id) VALUES (2, 1);
@@ -113,6 +116,10 @@ INSERT INTO examples_tags (example_id, tag_id) VALUES (3, 1);
 INSERT INTO examples_tags (example_id, tag_id) VALUES (4, 3);
 INSERT INTO examples_tags (example_id, tag_id) VALUES (5, 3);
 INSERT INTO examples_tags (example_id, tag_id) VALUES (1, 1);
+INSERT INTO examples_tags (example_id, tag_id) VALUES (6, 2);
+INSERT INTO examples_tags (example_id, tag_id) VALUES (6, 4);
+INSERT INTO examples_tags (example_id, tag_id) VALUES (7, 1);
+INSERT INTO examples_tags (example_id, tag_id) VALUES (7, 3);
 
 COMMIT TRANSACTION;
 
