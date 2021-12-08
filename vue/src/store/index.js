@@ -20,6 +20,9 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
+    mainColor: {
+      "colorMain": "#1F4287"
+    },
     examples: [
       { 
         "title": "Loop",  
