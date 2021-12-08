@@ -4,6 +4,8 @@
       <input placeholder="search title" type="text" v-model="filter.title" />
       <input placeholder="search language" type="text" v-model="filter.language" />
       <input placeholder="search by tags" type="text" v-model="filter.tags" />
+      <button type="button" class="btn btn-primary">Primary</button>
+
       
     </form>
     <div v-for="example in filterSnippets" v-bind:key="example.exampleId">
