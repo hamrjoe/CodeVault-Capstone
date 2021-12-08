@@ -1,40 +1,87 @@
 <template>
   <div class="background">
     <div>
-    <form>
-      <input class="searchHeader" placeholder="search title" type="text" v-model="filter.title" />
-      <input class="searchHeader" placeholder="search language" type="text" v-model="filter.language" />
-      <input class="searchHeader" placeholder="search by tags" type="text" v-model="filter.tags" />
-      <b-button class="searchHeader" pill v-on:click.prevent="clearSearchInputs">Show All</b-button>
-    </form>
 
-    <!-- <div v-for="example in filterSnippets" v-bind:key="example.exampleId">
+      <form>
+        <input
+          class="searchHeader"
+          placeholder="search title"
+          type="text"
+          v-model="filter.title"
+        />
+        <div>
+          <!-- <input class="searchHeader" placeholder="search language" type="text" v-model="filter.language" /> -->
+
+          <div>
+            <b-dropdown id="dropdown-1" :text=" filter.language == '' ? 'Choose Language' : filter.language" class="m-md-2">
+            <b-dropdown-item v-for="language in retrieveAllLanguages" :key="language.id" v-on:click="languageTagButton(language)">{{language}}</b-dropdown-item>
+            </b-dropdown>
+          </div>
+        </div>
+     
+
+        <!--Show all button -->
+        <b-button 
+          class="searchHeader"
+          pill
+          v-on:click.prevent="clearSearchInputs"
+          >Show All</b-button
+        >
+      </form>
+
+<div id="pillcase">
+      <div class="pillbox">
+        <div class="tags" v-for="language in retrieveAllLanguages" :key="language.id">
+          <b-button class="tagButton" pill v-on:click="languageTagButton(language)">{{ language }}</b-button>
+             </div>
+      </div>
+       <div class="tags">
+        <div class="tags"  v-for="tag in retrieveAllTags" :key="tag.id">
+          <b-button class="tagButton" variant="primary" pill v-on:click="tagButton(tag)">{{ tag }}</b-button>
+                </div>
+      </div>
+</div>
+
+
+      <!-- <div v-for="example in filterSnippets" v-bind:key="example.exampleId">
       <p class="formatCode">{{ example.title }}</p>
       <pre class="formatCode">{{ convertFromUTF16(example.codeExample) }}</pre>
       <p>{{example.languageName}}</p>
       <p v-for="tag in example.tags" v-bind:key="tag"></p>
       
     </div> -->
- 
-     <div class="card" v-for="example in filterSnippets" v-bind:key="example.exampleId">
 
-  <div class="card-block">
-    <h4 class="card-title">{{example.title}}</h4>
-  
-  </div>
-  <div class="card-block">
-    <pre>{{ convertFromUTF16(example.codeExample) }}</pre>
+      <div
+        class="card"
+        v-for="example in filterSnippets"
+        v-bind:key="example.exampleId"
+      >
+        <div class="card-block">
+          <h4 class="card-title">{{ example.title }}</h4>
+        </div>
+        <div class="card-block">
+          <pre>{{ convertFromUTF16(example.codeExample) }}</pre>
+        </div>
+
+        <div class="pillbox">
+          <b-button
+            class="tagButton"
+            pill
+            v-on:click="languageTagButton(example.languageName)"
+            >{{ example.languageName }}</b-button
+          >
+          <div class="tags" v-for="tag in example.tags" v-bind:key="tag.tagId">
+            <b-button
+              class="tagButton"
+              pill
+              variant="primary"
+              v-on:click="tagButton(tag)"
+              >{{ tag }}</b-button
+            >
+          </div>
+        </div>
+      </div>
     </div>
-
-  <div class="pillbox" >
-   <b-button class="tagButton" pill v-on:click="languageTagButton(example.languageName)">{{example.languageName}}</b-button>
-  <div class="tags" v-for="tag in example.tags" v-bind:key="tag.tagId">
-  <b-button class="tagButton" pill variant="primary" v-on:click="tagButton(tag)">{{tag}}</b-button>
-  </div>
- 
-  </div>
-</div>
-   </div>
   </div>
 </template>
 
@@ -45,12 +92,12 @@ export default {
   data() {
     return {
       filter: {
-        title: '',
-        language: '',
-        tags: '',
-        searchedTags: []
+        title: "",
+        language: "",
+        tags: "",
+        searchedTags: [],
       },
-      tagFilter: '',
+      tagFilter: "",
       examples: [],
       newExample: {
         title: "",
@@ -71,7 +118,7 @@ export default {
   },
   methods: {
     convertFromUTF16(exampleToConvert) {
-      const stringToArray = exampleToConvert.split(',');
+      const stringToArray = exampleToConvert.split(",");
       return String.fromCharCode.apply(null, stringToArray);
     },
     languageTagButton(languageOnButton) {
@@ -81,51 +128,67 @@ export default {
       this.filter.tags = tagOnButton;
     },
     clearSearchInputs() {
-      this.filter.title = "",
-      this.filter.language = "",
-      this.filter.tags = "",
-      this.filter.searchedTags = []
-    }
+      (this.filter.title = ""),
+        (this.filter.language = ""),
+        (this.filter.tags = ""),
+        (this.filter.searchedTags = []);
+    },
   },
   computed: {
     filterSnippets() {
-
       let filteredExamples = this.examples;
 
-      if (this.filter.title != '') {
-        filteredExamples = filteredExamples.filter((example) => 
-          example.title
-          .toLowerCase()
-          .includes(this.filter.title.toLowerCase())
+      if (this.filter.title != "") {
+        filteredExamples = filteredExamples.filter((example) =>
+          example.title.toLowerCase().includes(this.filter.title.toLowerCase())
         );
       }
 
-      if (this.filter.language != '') {
-        filteredExamples = filteredExamples.filter((example) => 
+      if (this.filter.language != "") {
+        filteredExamples = filteredExamples.filter((example) =>
           example.languageName
-          .toLowerCase()
-          .includes(this.filter.language.toLowerCase())
+            .toLowerCase() ===
+            this.filter.language.toLowerCase()
         );
       }
 
-      if (this.filter.tags != '') {
-          filteredExamples = filteredExamples.filter(example => 
-            // return this.tagFilter == '' ? true :  
-          example.tags.find(tag => 
-          tag == this.filter.tags
-          )
-      )
+      if (this.filter.tags != "") {
+        filteredExamples = filteredExamples.filter((example) =>
+          // return this.tagFilter == '' ? true :
+          example.tags.find((tag) => tag == this.filter.tags)
+        );
       }
 
       return filteredExamples;
+    },
+    retrieveAllTags (){
+      let allTags = [];
+      this.examples.forEach((example) => {
+        example.tags.forEach((tag) => {
+          if (allTags.includes(tag) === false){
+          allTags.push(tag);
+          }
+        });
       
-    }
+      });
+
+      return allTags;
+    },
+    retrieveAllLanguages() {
+      let allLanguages = [];
+      this.examples.forEach((example) => {
+        if (allLanguages.includes(example.languageName) === false)
+          allLanguages.push(example.languageName);
+      });
+
+      return allLanguages;
+    },
+  }, // end of computed
+  makeTagList() {
+    let test = this.examples;
+
+    return test;
   },
-      makeTagList() {
-      let test = this.examples
-      
-      return test
-    }
 };
 </script>
 
@@ -144,14 +207,17 @@ pre {
   border: 1px solid black;
 }
 .pillbox {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 .card {
   margin: 1rem;
   margin-left: 40%;
   margin-right: 40%;
 }
-
-</style>
+#pillcase {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
