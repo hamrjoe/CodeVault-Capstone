@@ -6,8 +6,8 @@ export default {
         return axios.get('/examples')
     },
 
-    addExample(example) {
-        return axios.post('/examples', example)
+    addExample(exampleToSubmit) {
+        return axios.post('/examples', exampleToSubmit );
     }
 
 }

@@ -80,7 +80,7 @@
       
     </div> -->
 
-
+<p v-if=" this.addMessage != '' "></p>
 <!-- Add a Card Field -->
       <div class="card" v-if="this.addingNewExample == true">
         <div class="card-block">
@@ -138,7 +138,7 @@
 
             <input type="checkbox" v-model="newExample.isPrivate" />
 
-            <button v-on:click.prevent="">Submit</button>
+            <button v-on:click.prevent="submitNewExample">Submit</button>
             <button v-on:click.prevent="toggleAdd">Cancel</button>
           </form>
         </div>
@@ -192,28 +192,30 @@ export default {
         tags: "",
         searchedTags: [],
       },
+      addMessage: "",
       addingNewExample: false,
       tagFilter: "",
       examples: [],
       newExample: {
         title: "",
         description: "",
+        tags: [],
         exampleId: 0,
         languageName: "",
-        userId: 0,
-        isPrivate: "",
-        isDefault: "",
-        attribution: "",
+        languageId: 0,
         codeExample: "",
-        tags: [],
+        isPrivate: "",
+        attribution: "",
+        isDefault: "",
+        userId: 0,
       },
     };
-  },
+  }, // End of data
   created() {
     exampleService.retrieveExamples().then((response) => {
       this.examples = response.data;
     });
-  },
+  }, //End of created
   methods: {
     convertFromUTF16(exampleToConvert) {
       const stringToArray = exampleToConvert.split(",");
@@ -247,14 +249,15 @@ export default {
       if (this.addingNewExample) {
         this.newExample.title = "";
         this.newExample.description = "";
-        this.newExample.exampleId = 0;
-        this.newExample.languageName = "";
-        this.newExample.userId = 0;
-        this.newExample.isPrivate = "";
-        this.newExample.isDefault = "";
-        this.newExample.attribution = "";
-        this.newExample.codeExample = "";
         this.newExample.tags = [];
+        this.newExample.languageName = "";
+        this.newExample.languageId = 0;
+        this.newExample.exampleId = 0;
+        this.newExample.codeExample = "";
+        this.newExample.isPrivate = "";
+        this.newExample.attribution = "";
+        this.newExample.isDefault = "";
+        this.newExample.userId = 0;
         this.addingNewExample = !this.addingNewExample;
       }
       else {
@@ -265,22 +268,29 @@ export default {
       return this.retrieveAllTags;
     },
     submitNewExample() {
-      let exampleToSubmit = this.newExample;
-      let bufferArray = new ArrayBuffer(this.newExample.codeExample.length*2);
+      // Data Validation
+
+      // Convert Code to UTF16
+      let exampleToSubmit = Object.assign({}, this.newExample);
+      let bufferArray = new ArrayBuffer(exampleToSubmit.codeExample.length*2);
       let convertedCode = new Uint16Array(bufferArray);
-      for (let i=0; i < this.newExample.codeExample.length; i++) {
-        convertedCode[i] = this.newExample.codeExample.charCodeAt(i);
+      for (let i=0; i < exampleToSubmit.codeExample.length; i++) {
+        convertedCode[i] = exampleToSubmit.codeExample.charCodeAt(i);
       }
-      exampleToSubmit.codeExample = convertedCode;
+      exampleToSubmit.codeExample = convertedCode.join(',');
+      // Send new Example to Database
       exampleService.addExample(exampleToSubmit).then( (response) => {
+        this.toggleAdd();
         if (response.status == 201) {
-          this.toggleAdd()
+          exampleService.retrieveExamples().then((response) => {
+            this.examples = response.data;
+          });
         }
       }).catch( error => {
         console.log(error);
       });
     }
-  },
+  }, // End of methods
   computed: {
     filterSnippets() {
       let filteredExamples = this.examples;
@@ -337,7 +347,7 @@ export default {
 
       return allLanguages;
     },
-  }, // end of computed
+  }, // End of computed
   makeTagList() {
     let test = this.examples;
 
