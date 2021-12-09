@@ -44,7 +44,7 @@ public class JDBCExampleDAO implements ExampleDAO{
     public void addExample(Example example) {
 
         int exampleId = getNextExampleId();
-        
+
         //setting the language_id
         String sql = "SELECT language_id FROM languages WHERE language_name = ?";
 
