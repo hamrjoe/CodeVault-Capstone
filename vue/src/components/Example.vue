@@ -123,12 +123,12 @@
               >{{ tag }}</b-button
             >
           </div>
-          <div class="tags" v-for="tag in retrieveAllTags" :key="tag.id">
+          <div class="tags" v-for="tag in this.retrieveTagsForNew" :key="tag.id">
             <b-button
               class="tagButton"
               variant="primary"
               pill
-              v-on:click="tagButton(tag)"
+              v-on:click="addTagButton(tag)"
               >{{ tag }}</b-button
             >
           </div>
@@ -259,6 +259,9 @@ export default {
         this.addingNewExample = !this.addingNewExample;
       }
     },
+    retrieveAllTagsMethod() {
+      return this.retrieveAllTags;
+    }
   },
   computed: {
     filterSnippets() {
@@ -299,19 +302,14 @@ export default {
 
       return allTags;
     },
-    // retrieveTagsForNew() {
-    //   const newExampleTags = this.newExample.tags;
-    //   const allTags = retrieveAllTags();
-    //   let newTags = [];
-      
-    //   // newTags.includes( (tag, index, array) => 
-    //   //   this.newExample.tags
-    //   // );
-    //   // for (let i=0; i<newExampleTags.length; i++) {
-
-    //   // }
-    //   return newTags;
-    // },
+    retrieveTagsForNew() {
+      const newExampleTags = this.newExample.tags;
+      let newTags = this.retrieveAllTagsMethod();
+      newTags = newTags.filter( (tag) => 
+        !newExampleTags.includes(tag)
+      );
+      return newTags;
+    },
     retrieveAllLanguages() {
       let allLanguages = [];
       this.examples.forEach((example) => {
