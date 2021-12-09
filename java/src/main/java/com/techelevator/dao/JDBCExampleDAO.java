@@ -44,8 +44,12 @@ public class JDBCExampleDAO implements ExampleDAO{
     public void addExample(Example example) {
 
         int exampleId = getNextExampleId();
-        
+
+<<<<<<< HEAD
+        // setting the language_id
+=======
         //setting the language_id
+>>>>>>> e25f8c0865092db2f5d72f46f849e57eb42eab76
         String sql = "SELECT language_id FROM languages WHERE language_name = ?";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, example.getLanguageName());
@@ -54,12 +58,30 @@ public class JDBCExampleDAO implements ExampleDAO{
             example.setLanguageId(results.getLong("language_id"));
         }
 
-        //inserting example into examples table
+        // inserting example into examples table
         String exampleSql = "INSERT INTO examples(example_id, title, description, language_id, code_example, is_private, attribution, is_default) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(exampleSql, exampleId, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.isPrivate(), example.getAttribution(), example.isDefault());
 
+        // get list of tags from JSON, loop through, unpack them
+
+        List<String> tagList = example.getTags();
+
+        for (String tag : tagList) {
+
+            String sqlTag = "SELECT tag_id FROM tags WHERE tag_name = ?";
+            SqlRowSet tagResults = jdbcTemplate.queryForRowSet(sqlTag, tag);
+
+            if (tagResults.next()) {
+                int tagId = tagResults.getInt("tag_id");
+
+        // inserting into examples_tags table
+
+                String tagSql = "INSERT INTO examples_tags(example_id, tag_id) VALUES(?, ?)";
+                jdbcTemplate.update(tagSql, exampleId, tagId);
+            }
+        }
     }
 
     private Example mapRowToExample(SqlRowSet results) {
@@ -109,6 +131,8 @@ public class JDBCExampleDAO implements ExampleDAO{
             throw new RuntimeException("Something went wrong getting an id for the new example");
         }
     }
+
+
 
 //    private int setLanguageId(Example example) {
 //        String sql = "SELECT language_id FROM languages WHERE language_name = ?";
