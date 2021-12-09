@@ -40,12 +40,34 @@ public class JDBCExampleDAO implements ExampleDAO{
         return examples;
     }
 
+    @Override
+    public void addExample(Example example) {
+
+        int exampleId = getNextExampleId();
+        
+        //setting the language_id
+        String sql = "SELECT language_id FROM languages WHERE language_name = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, example.getLanguageName());
+
+        if (results.next()) {
+            example.setLanguageId(results.getLong("language_id"));
+        }
+
+        //inserting example into examples table
+        String exampleSql = "INSERT INTO examples(example_id, title, description, language_id, code_example, is_private, attribution, is_default) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+
+        jdbcTemplate.update(exampleSql, exampleId, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.isPrivate(), example.getAttribution(), example.isDefault());
+
+    }
 
     private Example mapRowToExample(SqlRowSet results) {
 
         Example example = new Example();
 
         example.setTitle(results.getString("title"));
+        example.setDescription(results.getString("description"));
         example.setTags(retrieveTags(results.getLong("example_id")));
         example.setExampleId(results.getLong("example_id"));
         example.setLanguageName(results.getString("language_name"));
@@ -78,5 +100,24 @@ public class JDBCExampleDAO implements ExampleDAO{
         return allTags;
 
     }
+
+    private int getNextExampleId() {
+        SqlRowSet nextId = jdbcTemplate.queryForRowSet("SELECT nextval('seq_example_id')");
+        if(nextId.next()) {
+            return nextId.getInt(1);
+        } else {
+            throw new RuntimeException("Something went wrong getting an id for the new example");
+        }
+    }
+
+//    private int setLanguageId(Example example) {
+//        String sql = "SELECT language_id FROM languages WHERE language_name = ?";
+//
+//        jdbcTemplate.update(sql, example.getLanguageName());
+//
+//        int languageIdInt = languageId.getInt(1);
+//
+//        return languageIdInt;
+//    }
 
 }

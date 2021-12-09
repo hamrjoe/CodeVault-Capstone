@@ -67,6 +67,7 @@ CREATE TABLE tags (
 CREATE TABLE examples (
     example_id int DEFAULT nextval('seq_example_id'::regclass) NOT NULL,
     title varchar(50) NOT NULL,
+    description varchar (500),
 --    user_id int NOT NULL,
     language_id int NOT NULL,
     code_example text NOT NULL,

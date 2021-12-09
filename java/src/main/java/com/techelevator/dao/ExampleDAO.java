@@ -9,7 +9,7 @@ public interface ExampleDAO {
 
     List<Example> retrieveAllExamples();
 
-
+    void addExample(Example example);
 
 
 }

@@ -5,9 +5,11 @@ import java.util.List;
 public class Example {
 
     private String title;
+    private String description;
     private List<String> tags;
     private long exampleId;
     private String languageName;
+    private long languageId;
     private String codeExample;
     private boolean isPrivate;
     private String attribution;
@@ -22,6 +24,14 @@ public class Example {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<String> getTags() {
@@ -46,6 +56,14 @@ public class Example {
 
     public void setLanguageName(String languageName) {
         this.languageName = languageName;
+    }
+
+    public long getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(long languageId) {
+        this.languageId = languageId;
     }
 
     public String getCodeExample() {
