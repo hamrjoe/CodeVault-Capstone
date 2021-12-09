@@ -4,5 +4,10 @@ export default {
 
     retrieveExamples() {
         return axios.get('/examples')
+    },
+
+    addExample(example) {
+        return axios.post('/examples', example)
     }
+
 }

@@ -1,7 +1,6 @@
 <template>
   <div class="background">
     <div>
-
       <form>
         <input
           class="searchHeader"
@@ -13,35 +12,65 @@
           <!-- <input class="searchHeader" placeholder="search language" type="text" v-model="filter.language" /> -->
 
           <div>
-            <b-dropdown id="dropdown-1" :text=" filter.language == '' ? 'Choose Language' : filter.language" class="m-md-2">
-            <b-dropdown-item v-for="language in retrieveAllLanguages" :key="language.id" v-on:click="languageTagButton(language)">{{language}}</b-dropdown-item>
+            <b-dropdown
+              id="dropdown-1"
+              :text="
+                filter.language == '' ? 'Choose Language' : filter.language
+              "
+              class="m-md-2"
+            >
+              <b-dropdown-item
+                v-for="language in retrieveAllLanguages"
+                :key="language.id"
+                v-on:click="languageTagButton(language)"
+                >{{ language }}</b-dropdown-item
+              >
             </b-dropdown>
           </div>
         </div>
-     
 
         <!--Show all button -->
-        <b-button 
+        <b-button
           class="searchHeader"
           pill
           v-on:click.prevent="clearSearchInputs"
           >Show All</b-button
         >
+        <b-button v-on:click="toggleAdd" v-if="addingNewExample == false"
+          >Add an Example</b-button
+        >
+        <b-button v-on:click="toggleAdd" v-if="addingNewExample == true"
+          >Cancel Add</b-button
+        >
       </form>
 
-<div id="pillcase">
-      <div class="pillbox">
-        <div class="tags" v-for="language in retrieveAllLanguages" :key="language.id">
-          <b-button class="tagButton" pill v-on:click="languageTagButton(language)">{{ language }}</b-button>
-             </div>
+      <div id="pillcase">
+        <div class="pillbox">
+          <div
+            class="tags"
+            v-for="language in retrieveAllLanguages"
+            :key="language.id"
+          >
+            <b-button
+              class="tagButton"
+              pill
+              v-on:click="languageTagButton(language)"
+              >{{ language }}</b-button
+            >
+          </div>
+        </div>
+        <div class="tags">
+          <div class="tags" v-for="tag in retrieveAllTags" :key="tag.id">
+            <b-button
+              class="tagButton"
+              variant="primary"
+              pill
+              v-on:click="tagButton(tag)"
+              >{{ tag }}</b-button
+            >
+          </div>
+        </div>
       </div>
-       <div class="tags">
-        <div class="tags"  v-for="tag in retrieveAllTags" :key="tag.id">
-          <b-button class="tagButton" variant="primary" pill v-on:click="tagButton(tag)">{{ tag }}</b-button>
-                </div>
-      </div>
-</div>
-
 
       <!-- <div v-for="example in filterSnippets" v-bind:key="example.exampleId">
       <p class="formatCode">{{ example.title }}</p>
@@ -51,6 +80,72 @@
       
     </div> -->
 
+
+<!-- Add a Card Field -->
+      <div class="card" v-if="this.addingNewExample == true">
+        <div class="card-block">
+          <form action="submit">
+            <input type="text" placeholder="Title" v-model="newExample.title" />
+            <textarea
+              type="text"
+              placeholder="Description"
+              v-model="newExample.description"
+            ></textarea>
+            <textarea
+              type="text"
+              placeholder="Add code here"
+              v-model="newExample.codeExample"
+            ></textarea>
+          <div>
+            <b-dropdown
+              id="dropdown-1"
+              :text="
+                newExample.languageName == '' ? 'Choose Language' : newExample.languageName
+              "
+              class="m-md-2"
+            >
+              <b-dropdown-item
+                v-for="language in retrieveAllLanguages"
+                :key="language.id"
+                v-on:click="addLanguageButton(language)"
+                >{{ language }}</b-dropdown-item
+              >
+            </b-dropdown>
+          </div>
+
+        <div class="pillbox">
+          <div class="tags" v-for="tag in newExample.tags" v-bind:key="tag.tagId">
+            <b-button
+              class="tagButton"
+              pill
+              variant="primary"
+              v-on:click="addTagButton(tag)"
+              >{{ tag }}</b-button
+            >
+          </div>
+          <div class="tags" v-for="tag in this.retrieveTagsForNew" :key="tag.id">
+            <b-button
+              class="tagButton"
+              variant="primary"
+              pill
+              v-on:click="addTagButton(tag)"
+              >{{ tag }}</b-button
+            >
+          </div>
+        </div>
+
+            <input type="text" placeholder="Attribution" v-model="newExample.attribution" />
+
+            <input type="checkbox" v-model="newExample.isPrivate" />
+
+            <button v-on:click.prevent="">Submit</button>
+            <button v-on:click.prevent="toggleAdd">Cancel</button>
+          </form>
+        </div>
+      </div>
+  <!-- End Add Example Card -->
+
+<!-- Display all searched cards -->
       <div
         class="card"
         v-for="example in filterSnippets"
@@ -97,17 +192,20 @@ export default {
         tags: "",
         searchedTags: [],
       },
+      addingNewExample: false,
       tagFilter: "",
       examples: [],
       newExample: {
         title: "",
-        example_id: "",
-        language_id: "",
-        user_id: "",
+        description: "",
+        exampleId: 0,
+        languageName: "",
+        userId: 0,
         isPrivate: "",
         isDefault: "",
         attribution: "",
-        code_example: "",
+        codeExample: "",
+        tags: [],
       },
     };
   },
@@ -127,12 +225,61 @@ export default {
     tagButton(tagOnButton) {
       this.filter.tags = tagOnButton;
     },
+    addTagButton(tagOnButton) {
+      if (this.newExample.tags.includes(tagOnButton)) {
+        const index = this.newExample.tags.indexOf(tagOnButton);
+        this.newExample.tags.splice(index,1);
+      }
+      else {
+        this.newExample.tags.push(tagOnButton);
+      }
+    },
+    addLanguageButton(languageOnButton) {
+      this.newExample.languageName = languageOnButton;
+    },
     clearSearchInputs() {
       (this.filter.title = ""),
         (this.filter.language = ""),
         (this.filter.tags = ""),
         (this.filter.searchedTags = []);
     },
+    toggleAdd() {
+      if (this.addingNewExample) {
+        this.newExample.title = "";
+        this.newExample.description = "";
+        this.newExample.exampleId = 0;
+        this.newExample.languageName = "";
+        this.newExample.userId = 0;
+        this.newExample.isPrivate = "";
+        this.newExample.isDefault = "";
+        this.newExample.attribution = "";
+        this.newExample.codeExample = "";
+        this.newExample.tags = [];
+        this.addingNewExample = !this.addingNewExample;
+      }
+      else {
+        this.addingNewExample = !this.addingNewExample;
+      }
+    },
+    retrieveAllTagsMethod() {
+      return this.retrieveAllTags;
+    },
+    submitNewExample() {
+      let exampleToSubmit = this.newExample;
+      let bufferArray = new ArrayBuffer(this.newExample.codeExample.length*2);
+      let convertedCode = new Uint16Array(bufferArray);
+      for (let i=0; i < this.newExample.codeExample.length; i++) {
+        convertedCode[i] = this.newExample.codeExample.charCodeAt(i);
+      }
+      exampleToSubmit.codeExample = convertedCode;
+      exampleService.addExample(exampleToSubmit).then( (response) => {
+        if (response.status == 201) {
+          this.toggleAdd()
+        }
+      }).catch( error => {
+        console.log(error);
+      });
+    }
   },
   computed: {
     filterSnippets() {
@@ -145,9 +292,9 @@ export default {
       }
 
       if (this.filter.language != "") {
-        filteredExamples = filteredExamples.filter((example) =>
-          example.languageName
-            .toLowerCase() ===
+        filteredExamples = filteredExamples.filter(
+          (example) =>
+            example.languageName.toLowerCase() ===
             this.filter.language.toLowerCase()
         );
       }
@@ -161,18 +308,25 @@ export default {
 
       return filteredExamples;
     },
-    retrieveAllTags (){
+    retrieveAllTags() {
       let allTags = [];
       this.examples.forEach((example) => {
         example.tags.forEach((tag) => {
-          if (allTags.includes(tag) === false){
-          allTags.push(tag);
+          if (allTags.includes(tag) === false) {
+            allTags.push(tag);
           }
         });
-      
       });
 
       return allTags;
+    },
+    retrieveTagsForNew() {
+      const newExampleTags = this.newExample.tags;
+      let newTags = this.retrieveAllTagsMethod();
+      newTags = newTags.filter( (tag) => 
+        !newExampleTags.includes(tag)
+      );
+      return newTags;
     },
     retrieveAllLanguages() {
       let allLanguages = [];
