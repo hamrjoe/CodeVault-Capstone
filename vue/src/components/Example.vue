@@ -94,7 +94,7 @@
             <textarea
               type="text"
               placeholder="Add code here"
-              v-model="newExample.code_example"
+              v-model="newExample.codeExample"
             ></textarea>
           <div>
             <b-dropdown
@@ -134,7 +134,9 @@
           </div>
         </div>
 
+            <input type="text" placeholder="Attribution" v-model="newExample.attribution" />
 
+            <input type="checkbox" v-model="newExample.isPrivate" />
 
             <button v-on:click.prevent="">Submit</button>
             <button v-on:click.prevent="toggleAdd">Cancel</button>
@@ -261,6 +263,22 @@ export default {
     },
     retrieveAllTagsMethod() {
       return this.retrieveAllTags;
+    },
+    submitNewExample() {
+      let exampleToSubmit = this.newExample;
+      let bufferArray = new ArrayBuffer(this.newExample.codeExample.length*2);
+      let convertedCode = new Uint16Array(bufferArray);
+      for (let i=0; i < this.newExample.codeExample.length; i++) {
+        convertedCode[i] = this.newExample.codeExample.charCodeAt(i);
+      }
+      exampleToSubmit.codeExample = convertedCode;
+      exampleService.addExample(exampleToSubmit).then( (response) => {
+        if (response.status == 201) {
+          this.toggleAdd()
+        }
+      }).catch( error => {
+        console.log(error);
+      });
     }
   },
   computed: {
