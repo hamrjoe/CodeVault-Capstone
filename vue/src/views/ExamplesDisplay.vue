@@ -10,28 +10,3 @@ export default {
 }
 </script>
 
-<style>
-
-form {
-  color: cyan;
-  margin-left: 35%;
-  margin-right: 35%;
-}
-
-pre {
-  text-align: left;
-  border: 1px solid black;
-}
-.pillbox {
-    display: flex;
-    flex-direction: row;
-}
-.card {
-  margin: 1rem;
-  padding: 0.5rem;
-  margin-left: 35%;
-  margin-right: 35%;
-}
-
-
-</style>

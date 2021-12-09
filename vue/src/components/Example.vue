@@ -81,12 +81,19 @@
     </div> -->
 
 <p v-if=" this.addMessage != '' "></p>
-<!-- Add a Card Field -->
-      <div class="card" v-if="this.addingNewExample == true">
-        <div class="card-block">
+
+
+ 
+
+  <!-- start all card display -->
+       <div class="row row-cols-1 row-cols-md-4 g-4">
+         <!-- Add a Card Field -->
+         <div class="col" v-if="this.addingNewExample == true">
+      <div class="card h-100 " >
+        <div class="card-body d-flex flex-column">
           <form action="submit">
-            <input type="text" placeholder="Title" v-model="newExample.title" />
-            <textarea
+            <input type="text" class="card-title" placeholder="Title" v-model="newExample.title" />
+            <textarea class="card-text"
               type="text"
               placeholder="Description"
               v-model="newExample.description"
@@ -142,25 +149,31 @@
             <button v-on:click.prevent="toggleAdd">Cancel</button>
           </form>
         </div>
+        </div>
       </div>
-  <!-- End Add Example Card -->
+ <!-- End Add Example Card -->
+
 
 <!-- Display all searched cards -->
-      <div
-        class="card"
-        v-for="example in filterSnippets"
-        v-bind:key="example.exampleId"
-      >
-        <div class="card-block">
-          <h4 class="card-title">{{ example.title }}</h4>
-        </div>
-        <div class="card-block">
-          <pre>{{ convertFromUTF16(example.codeExample) }}</pre>
-        </div>
 
-        <div class="pillbox">
+      <div
+        class="col" 
+        v-for="example in filterSnippets"
+        v-bind:key="example.exampleId" 
+      >  
+      <div class="card h-100">
+        <div class="card-body d-flex flex-column">
+          <h4 class="card-title">{{ example.title }}</h4>
+            <p class="card-text">description placeholder</p>
+       
+          <pre class="codeDisplay border border-primary overflow-auto">{{ convertFromUTF16(example.codeExample) }}</pre>
+
+          <p class="card-text">{{example.attribution}}</p>
+          
+      
+        <div class="d-flex align-items-end mt-auto" >
           <b-button
-            class="tagButton"
+            class="tagButton "
             pill
             v-on:click="languageTagButton(example.languageName)"
             >{{ example.languageName }}</b-button
@@ -175,9 +188,16 @@
             >
           </div>
         </div>
-      </div>
+        </div>
+        </div>
+        </div>
+    </div>
+    
     </div>
   </div>
+
+
+
 </template>
 
 <script>
@@ -356,7 +376,15 @@ export default {
 };
 </script>
 
-<style >
+<style scoped >
+.background {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+pre {
+  max-height: 10rem;
+}
+
 .searchHeader {
   margin: 4px;
 }
@@ -365,23 +393,33 @@ export default {
   margin: 2px;
 }
 
-pre {
+.codeDisplay {
   text-align: left;
   padding: 2px;
-  border: 1px solid black;
+  border: 10px solid black;
+  overflow: auto;
 }
-.pillbox {
+/* .pillbox {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 }
-.card {
-  margin: 1rem;
-  margin-left: 40%;
-  margin-right: 40%;
-}
+
 #pillcase {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+} */
+form {
+  color: cyan;
+
 }
+
+.pillbox {
+    display: flex;
+    flex-direction: row;
+}
+</style>
+
+
+
