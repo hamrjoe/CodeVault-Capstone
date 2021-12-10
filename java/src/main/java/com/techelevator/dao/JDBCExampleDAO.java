@@ -57,10 +57,10 @@ public class JDBCExampleDAO implements ExampleDAO{
         }
 
         // inserting example into examples table
-        String exampleSql = "INSERT INTO examples(example_id, title, description, language_id, code_example, is_private, attribution, is_default) " +
+        String exampleSql = "INSERT INTO examples(example_id, title, description, language_id, code_example, is_private, attribution, is_default, user_id) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(exampleSql, exampleId, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.isPrivate(), example.getAttribution(), example.isDefault());
+        jdbcTemplate.update(exampleSql, exampleId, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.isPrivate(), example.getAttribution(), example.isDefault(), example.getUserId());
 
         // get list of tags from JSON, loop through, unpack them
 
@@ -130,7 +130,7 @@ public class JDBCExampleDAO implements ExampleDAO{
         example.setCodeExample(results.getString("code_example"));
         example.setPrivate(results.getBoolean("is_private"));
         example.setAttribution(results.getString("attribution"));
-        //example.setUserId(results.get);
+        example.setUserId(results.getLong("user_id"));
         example.setDefault(results.getBoolean("is_default"));
 
         return example;
@@ -165,17 +165,5 @@ public class JDBCExampleDAO implements ExampleDAO{
             throw new RuntimeException("Something went wrong getting an id for the new example");
         }
     }
-
-
-
-//    private int setLanguageId(Example example) {
-//        String sql = "SELECT language_id FROM languages WHERE language_name = ?";
-//
-//        jdbcTemplate.update(sql, example.getLanguageName());
-//
-//        int languageIdInt = languageId.getInt(1);
-//
-//        return languageIdInt;
-//    }
 
 }
