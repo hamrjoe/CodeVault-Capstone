@@ -34,6 +34,11 @@ public class ExampleController {
     public void deleteExample(@PathVariable int exampleId) {
         exampleDAO.deleteExample(exampleId);
     }
+    @RequestMapping(path = "/examples/{exampleId}", method = RequestMethod.PUT)
+    public void editExample(@RequestBody Example example, @PathVariable int exampleId) {
+        example.setExampleId(exampleId);
+        exampleDAO.editExample(example);
+    }
 
 
 }
