@@ -369,7 +369,7 @@ export default {
         this.newExample.isPrivate = "";
         this.newExample.attribution = "";
         this.newExample.isDefault = "";
-        this.newExample.userId = this.$store.state.user.currentUser;
+        this.newExample.userId = this.$store.state.user.id;
         this.addingNewExample = !this.addingNewExample;
       } else {
         this.addingNewExample = !this.addingNewExample;
