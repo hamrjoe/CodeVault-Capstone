@@ -1,9 +1,9 @@
 <template>
   <div class="background">
     <div>
-      <form>
+      <form class="d-flex flex-row justify-content-start">
         <input
-          class="searchHeader"
+          class="searchHeader flex-grow"
           placeholder="search title"
           type="text"
           v-model="filter.title"
@@ -18,6 +18,7 @@
                 filter.language == '' ? 'Choose Language' : filter.language
               "
               class="m-md-2"
+              variant="primary"
             >
               <b-dropdown-item
                 v-for="language in retrieveAllLanguages"
@@ -32,20 +33,28 @@
         <!--Show all button -->
         <b-button
           class="searchHeader"
+          variant="dark"
           pill
           v-on:click.prevent="clearSearchInputs"
           >Show All</b-button
         >
-        <b-button id="addExampleButton"  v-on:click="toggleAdd" v-if="addingNewExample == false"
+        <b-button
+          id="addExampleButton"
+          v-on:click="toggleAdd"
+          v-if="addingNewExample == false"
           >Add an Example</b-button
         >
-        <b-button id="cancelAddExample" v-on:click="toggleAdd" v-if="addingNewExample == true"
+        <b-button
+          id="cancelAddExample"
+          v-on:click="toggleAdd"
+          v-if="addingNewExample == true"
           >Cancel Add</b-button
         >
       </form>
 
+      <h3>Search By Tags:</h3>
       <div id="pillcase">
-        <div class="pillbox">
+        <div class="pillbox d-flex flex-row flex-wrap justify-content-start">
           <div
             class="tags"
             v-for="language in retrieveAllLanguages"
@@ -53,17 +62,18 @@
           >
             <b-button
               class="tagButton"
+              variant="primary"
               pill
               v-on:click="languageTagButton(language)"
               >{{ language }}</b-button
             >
           </div>
         </div>
-        <div class="tags">
+        <div class="tags d-flex flex-row flex-wrap justify-content-start">
           <div class="tags" v-for="tag in retrieveAllTags" :key="tag.id">
             <b-button
               class="tagButton"
-              variant="primary"
+              variant="info"
               pill
               v-on:click="tagButton(tag)"
               >{{ tag }}</b-button
@@ -80,133 +90,172 @@
       
     </div> -->
 
-<p v-if=" this.addMessage != '' "></p>
+      <p v-if="this.addMessage != ''"></p>
 
+      <!-- start all card display -->
+      <div class="row row-cols-1 row-cols-md-4 g-4">
+        <!-- Add a Card Field -->
+        <div class="col" v-if="this.addingNewExample == true">
+          <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+              <form class="card-body d-flex flex-column" action="submit">
+                <input
+                  type="text"
+                  class="card-title"
+                  placeholder="Title"
+                  v-model="newExample.title"
+                />
+                <textarea
+                  class="card-text"
+                  type="text"
+                  placeholder="Description"
+                  v-model="newExample.description"
+                ></textarea>
+                <textarea
+                  type="text"
+                  class="d-card-text overflow: auto"
+                  placeholder="Add code here"
+                  v-model="newExample.codeExample"
+                ></textarea>
+                <input
+                  type="text"
+                  placeholder="Attribution"
+                  v-model="newExample.attribution"
+                />
+                <div>
+                  <b-dropdown
+                    id="dropdown-1"
+                    variant="primary"
+                    :text="
+                      newExample.languageName == ''
+                        ? 'Choose Language'
+                        : newExample.languageName
+                    "
+                    class="m-md-2"
+                  >
+                    <b-dropdown-item
+                      v-for="language in retrieveAllLanguages"
+                      :key="language.id"
+                      v-on:click="addLanguageButton(language)"
+                      >{{ language }}</b-dropdown-item
+                    >
+                  </b-dropdown>
+                </div>
+                <!-- <p>Selected</p> -->
+                <p class="labelText">Add/Remove Tags</p>
+                <div
+                  class="pillbox d-flex flex-wrap flex-row justify-content-start"
+                >
+                  <div
+                    class="tags"
+                    v-for="tag in newExample.tags"
+                    v-bind:key="tag.tagId"
+                  >
+                    <b-button
+                      class="tagButton btn opacity-100"
+                      pill
+                      variant="info"
+                      v-on:click="addTagButton(tag)"
+                      >{{ tag }}</b-button
+                    >
+                  </div>
+                </div>
+                <!-- <p>Available Tags</p> -->
+                <div
+                  class="pillbox d-flex flex-wrap flex-row justify-content-start"
+                >
+                  <div
+                    class="tags"
+                    v-for="tag in this.retrieveTagsForNew"
+                    :key="tag.id"
+                  >
+                    <b-button
+                      class="tagButton opacity-50"
+                      variant="info"
+                      pill
+                      v-on:click="addTagButton(tag)"
+                      >{{ tag }}</b-button
+                    >
+                  </div>
+                </div>
 
- 
-
-  <!-- start all card display -->
-       <div class="row row-cols-1 row-cols-md-4 g-4">
-         <!-- Add a Card Field -->
-         <div class="col" v-if="this.addingNewExample == true">
-      <div class="card h-100 " >
-        <div class="card-body d-flex flex-column">
-          <form class="card-body d-flex flex-column" action="submit">
-            <input type="text" class="card-title " placeholder="Title" v-model="newExample.title" />
-            <textarea class="card-text"
-              type="text"
-              placeholder="Description"
-              v-model="newExample.description"
-            ></textarea>
-            <textarea
-              type="text"
-              class="d-card-text overflow: auto"
-              placeholder="Add code here"
-              v-model="newExample.codeExample"
-            ></textarea>
-            <input type="text" placeholder="Attribution" v-model="newExample.attribution" />
-          <div>
-            <b-dropdown
-              id="dropdown-1"
-              :text="
-                newExample.languageName == '' ? 'Choose Language' : newExample.languageName
-              "
-              class="m-md-2"
-            >
-              <b-dropdown-item
-                v-for="language in retrieveAllLanguages"
-                :key="language.id"
-                v-on:click="addLanguageButton(language)"
-                >{{ language }}</b-dropdown-item
-              >
-            </b-dropdown>
-          </div>
- <!-- <p>Selected</p> -->
-        <div class="pillbox ">
-         
-          <div class="tags" v-for="tag in newExample.tags" v-bind:key="tag.tagId">
-            <b-button
-              class="tagButton btn opacity-100"
-              pill
-              variant="primary"
-              v-on:click="addTagButton(tag)"
-              >{{ tag }}</b-button
-            >
-          </div>
-        </div>
-         <!-- <p>Available Tags</p> -->
-           <div class="pillbox">
-          <div class="tags" v-for="tag in this.retrieveTagsForNew" :key="tag.id">
-            <b-button
-              class="tagButton opacity-50"
-              variant="primary"
-              pill
-              v-on:click="addTagButton(tag)"
-              >{{ tag }}</b-button
-            >
-          </div>
-        </div>
-
-            
-            <div class="d-flex flex-row  justify-content-center">
-            <!-- <input type="checkbox" v-model="newExample.isPrivate" /> -->
-            <b-button class="tagButton opacity-100 flex-fill" v-on:click="togglePrivate" v-if="newExample.isPrivate == true">Make Public</b-button>
-            <b-button class="tagButton opacity-50 flex-fill " v-on:click="togglePrivate" v-if="newExample.isPrivate == false">Make Private</b-button>
-            <b-button class="tagButton flex-fill btn btn-dark" v-on:click.prevent="toggleAdd">Cancel</b-button>
-            <b-button class="tagButton flex-fill btn btn-danger" v-on:click.prevent="submitNewExample">Submit</b-button>
-           
+                <div class="d-flex flex-row justify-content-center">
+                  <!-- <input type="checkbox" v-model="newExample.isPrivate" /> -->
+                  <b-button
+                    class="tagButton opacity-100 flex-fill"
+                    v-on:click="togglePrivate"
+                    v-if="newExample.isPrivate == true"
+                    >Make Public</b-button
+                  >
+                  <b-button
+                    class="tagButton opacity-50 flex-fill"
+                    v-on:click="togglePrivate"
+                    v-if="newExample.isPrivate == false"
+                    >Make Private</b-button
+                  >
+                  <b-button
+                    class="tagButton flex-fill btn btn-dark"
+                    v-on:click.prevent="toggleAdd"
+                    >Cancel</b-button
+                  >
+                  <b-button
+                    class="tagButton flex-fill btn btn-danger"
+                    v-on:click.prevent="submitNewExample"
+                    >Submit</b-button
+                  >
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
+        <!-- End Add Example Card -->
+
+        <!-- Display all searched cards -->
+
+        <div
+          class="col"
+          v-for="example in filterSnippets"
+          v-bind:key="example.exampleId"
+        >
+          <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+              <h4 class="card-title">{{ example.title }}</h4>
+              <p class="card-text">description placeholder</p>
+
+              <pre class="codeDisplay border border-primary overflow-auto">{{
+                convertFromUTF16(example.codeExample)
+              }}</pre>
+
+              <p class="card-text">{{ example.attribution }}</p>
+
+              <div class="d-flex align-items-end mt-auto">
+                <b-button
+                  class="tagButton"
+                  variant="primary"
+                  pill
+                  v-on:click="languageTagButton(example.languageName)"
+                  >{{ example.languageName }}</b-button
+                >
+                <div
+                  class="tags"
+                  v-for="tag in example.tags"
+                  v-bind:key="tag.tagId"
+                >
+                  <b-button
+                    class="tagButton"
+                    pill
+                    variant="info"
+                    v-on:click="tagButton(tag)"
+                    >{{ tag }}</b-button
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
- <!-- End Add Example Card -->
-
-
-<!-- Display all searched cards -->
-
-      <div
-        class="col" 
-        v-for="example in filterSnippets"
-        v-bind:key="example.exampleId" 
-      >  
-      <div class="card h-100">
-        <div class="card-body d-flex flex-column">
-          <h4 class="card-title">{{ example.title }}</h4>
-            <p class="card-text">description placeholder</p>
-       
-          <pre class="codeDisplay border border-primary overflow-auto">{{ convertFromUTF16(example.codeExample) }}</pre>
-
-          <p class="card-text">{{example.attribution}}</p>
-          
-      
-        <div class="d-flex align-items-end mt-auto" >
-          <b-button
-            class="tagButton "
-            pill
-            v-on:click="languageTagButton(example.languageName)"
-            >{{ example.languageName }}</b-button
-          >
-          <div class="tags" v-for="tag in example.tags" v-bind:key="tag.tagId">
-            <b-button
-              class="tagButton"
-              pill
-              variant="primary"
-              v-on:click="tagButton(tag)"
-              >{{ tag }}</b-button
-            >
-          </div>
-        </div>
-        </div>
-        </div>
-        </div>
-    </div>
-    
     </div>
   </div>
-
-
-
 </template>
 
 <script>
@@ -259,9 +308,8 @@ export default {
     addTagButton(tagOnButton) {
       if (this.newExample.tags.includes(tagOnButton)) {
         const index = this.newExample.tags.indexOf(tagOnButton);
-        this.newExample.tags.splice(index,1);
-      }
-      else {
+        this.newExample.tags.splice(index, 1);
+      } else {
         this.newExample.tags.push(tagOnButton);
       }
     },
@@ -288,8 +336,7 @@ export default {
         this.newExample.isDefault = "";
         this.newExample.userId = 0;
         this.addingNewExample = !this.addingNewExample;
-      }
-      else {
+      } else {
         this.addingNewExample = !this.addingNewExample;
       }
     },
@@ -304,24 +351,27 @@ export default {
 
       // Convert Code to UTF16
       let exampleToSubmit = Object.assign({}, this.newExample);
-      let bufferArray = new ArrayBuffer(exampleToSubmit.codeExample.length*2);
+      let bufferArray = new ArrayBuffer(exampleToSubmit.codeExample.length * 2);
       let convertedCode = new Uint16Array(bufferArray);
-      for (let i=0; i < exampleToSubmit.codeExample.length; i++) {
+      for (let i = 0; i < exampleToSubmit.codeExample.length; i++) {
         convertedCode[i] = exampleToSubmit.codeExample.charCodeAt(i);
       }
-      exampleToSubmit.codeExample = convertedCode.join(',');
+      exampleToSubmit.codeExample = convertedCode.join(",");
       // Send new Example to Database
-      exampleService.addExample(exampleToSubmit).then( (response) => {
-        this.toggleAdd();
-        if (response.status == 201) {
-          exampleService.retrieveExamples().then((response) => {
-            this.examples = response.data;
-          });
-        }
-      }).catch( error => {
-        console.log(error);
-      });
-    }
+      exampleService
+        .addExample(exampleToSubmit)
+        .then((response) => {
+          this.toggleAdd();
+          if (response.status == 201) {
+            exampleService.retrieveExamples().then((response) => {
+              this.examples = response.data;
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   }, // End of methods
   computed: {
     filterSnippets() {
@@ -365,9 +415,7 @@ export default {
     retrieveTagsForNew() {
       const newExampleTags = this.newExample.tags;
       let newTags = this.retrieveAllTagsMethod();
-      newTags = newTags.filter( (tag) => 
-        !newExampleTags.includes(tag)
-      );
+      newTags = newTags.filter((tag) => !newExampleTags.includes(tag));
       return newTags;
     },
     retrieveAllLanguages() {
@@ -397,6 +445,10 @@ pre {
   max-height: 10rem;
 }
 
+.labelText {
+  color: black;
+}
+
 .searchHeader {
   margin: 4px;
 }
@@ -424,20 +476,19 @@ pre {
 } */
 form {
   color: cyan;
-
 }
 
 .pillbox {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 #addExampleButton {
-  background: #a81c56
+  background: #a81c56;
 }
 
 #cancelAddExample {
-  background: #0bcc7c
+  background: #0bcc7c;
 }
 </style>
 
