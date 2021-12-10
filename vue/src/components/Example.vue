@@ -39,20 +39,20 @@
           >Show All</b-button
         >
         <b-button
-          id="addExampleButton"
+          class="tagButton btn btn-success"
           v-on:click="toggleAdd"
           v-if="addingNewExample == false"
           >Add an Example</b-button
         >
         <b-button
-          id="cancelAddExample"
+          class="tagButton btn btn-danger"
           v-on:click="toggleAdd"
           v-if="addingNewExample == true"
           >Cancel Add</b-button
         >
       </form>
 
-      <h3>Search By Tags:</h3>
+      <h3 id="tagHeader">Search By Tags:</h3>
       <div id="pillcase">
         <div class="pillbox d-flex flex-row flex-wrap justify-content-start">
           <div
@@ -90,7 +90,11 @@
       
     </div> -->
 
-      <p v-if="this.addMessage != ''"></p>
+      <b-button class="tagButton btn btn-danger" v-if="this.addMessage != ''" v-on:click="clearMessages">{{ this.addMessage }}</b-button>
+      <b-button class="tagButton btn btn-success" v-if="this.addGoodMessage != ''" v-on:click="clearMessages">{{ this.addGoodMessage }}</b-button>
+      <b-button class="tagButton btn btn-danger" v-if=" deleteMessage != '' "> {{ this.deleteMessage }}</b-button>
+      <b-button class="tagButton btn btn-dark" v-if=" deleteMessage != '' " v-on:click="deleteExampleCancel"> Cancel</b-button>
+      <b-button class="tagButton btn btn-danger" v-if=" deleteMessage != '' " v-on:click="deleteExampleConfirm">Confirm Delete</b-button>
 
       <!-- start all card display -->
       <div class="row row-cols-1 row-cols-md-4 g-4">
@@ -194,12 +198,12 @@
                     >Make Private</b-button
                   >
                   <b-button
-                    class="tagButton flex-fill btn btn-dark"
+                    class="tagButton flex-fill btn btn-danger"
                     v-on:click.prevent="toggleAdd"
                     >Cancel</b-button
                   >
                   <b-button
-                    class="tagButton flex-fill btn btn-danger"
+                    class="tagButton flex-fill btn btn-dark"
                     v-on:click.prevent="submitNewExample"
                     >Submit</b-button
                   >
@@ -229,6 +233,7 @@
               <p class="card-text">{{ example.attribution }}</p>
 
               <div class="d-flex align-items-end mt-auto">
+                <div class="d-flex flex-row mt-auto">
                 <b-button
                   class="tagButton"
                   variant="primary"
@@ -249,10 +254,32 @@
                     >{{ tag }}</b-button
                   >
                 </div>
+                </div>
+
               </div>
+              <!-- end display of example language and search tags -->
+
+                <div class="d-flex flex-row justify-content-end">
+                <b-button
+                  class="tagButton"
+                  pill
+                  variant="outline-danger"
+                  v-on:click="deleteExampleCheck(example.exampleId)"
+                  >Delete</b-button>
+                <b-button
+                  class="tagButton"
+                  pill
+                  variant="outline-dark"
+                  >Edit</b-button>
+                </div>
+                <!-- end of example control buttons -->
+
             </div>
+            <!-- end card body -->
           </div>
+          <!-- end example card iteration -->
         </div>
+        <!-- End Example Card Display Loop -->
       </div>
     </div>
   </div>
@@ -271,6 +298,9 @@ export default {
         searchedTags: [],
       },
       addMessage: "",
+      addGoodMessage: "",
+      stageDelete: 0,
+      deleteMessage: "",
       addingNewExample: false,
       tagFilter: "",
       examples: [],
@@ -322,6 +352,10 @@ export default {
         (this.filter.tags = ""),
         (this.filter.searchedTags = []);
     },
+    clearMessages() {
+      this.addMessage = '';
+      this.addGoodMessage = '';
+    },
     toggleAdd() {
       if (this.addingNewExample) {
         this.newExample.title = "";
@@ -348,7 +382,18 @@ export default {
     },
     submitNewExample() {
       // Data Validation
-
+      if (this.newExample.languageName == ""){
+        this.addMessage = 'Language must be selected';
+        throw 'Language must be selected';
+      }
+      if (this.newExample.codeExample == ""){
+        this.addMessage = 'Code example cannot be blank';
+        throw 'Code example cannot be blank';
+      }
+      if (this.newExample.title == ""){
+        this.addMessage = 'Title cannot be blank';
+        throw 'Title cannot be blank';
+      }
       // Convert Code to UTF16
       let exampleToSubmit = Object.assign({}, this.newExample);
       let bufferArray = new ArrayBuffer(exampleToSubmit.codeExample.length * 2);
@@ -361,6 +406,7 @@ export default {
       exampleService
         .addExample(exampleToSubmit)
         .then((response) => {
+          this.addGoodMessage = 'Code Example Added!';
           this.toggleAdd();
           if (response.status == 201) {
             exampleService.retrieveExamples().then((response) => {
@@ -369,9 +415,22 @@ export default {
           }
         })
         .catch((error) => {
+          this.addMessage = 'Code Example could not be added!';
           console.log(error);
         });
     },
+    deleteExampleCheck(deleteId) {
+      this.stageDelete = deleteId;
+      this.deleteMessage = 'Are you sure you want to delete the example called ' + this.examples.find( (thisExample) => thisExample.exampleId == this.stageDelete).title + '?';
+      scroll(0,0);
+    },
+    deleteExampleConfirm() {
+      exampleService.deleteExample(this.stageDelete);
+    },
+    deleteExampleCancel() {
+      this.stageDelete = 0;
+      this.deleteMessage = '';
+    }
   }, // End of methods
   computed: {
     filterSnippets() {
@@ -483,13 +542,10 @@ form {
   flex-direction: row;
 }
 
-#addExampleButton {
-  background: #a81c56;
+#tagHeader {
+  color: whitesmoke;
 }
 
-#cancelAddExample {
-  background: #0bcc7c;
-}
 </style>
 
 

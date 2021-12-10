@@ -8,6 +8,14 @@ export default {
 
     addExample(exampleToSubmit) {
         return axios.post('/examples', exampleToSubmit );
-    }
+    },
+
+    deleteExample(exampleId) {
+        return axios.delete(`/examples/${exampleId}`);
+    },
+
+    editExample(exampleId, example) {
+        return axios.put(`/examples/${exampleId}`, example);
+    },
 
 }
