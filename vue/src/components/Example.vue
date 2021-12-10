@@ -38,18 +38,20 @@
           v-on:click.prevent="clearSearchInputs"
           >Show All</b-button
         >
+        
         <b-button
           class="tagButton btn btn-success"
           v-on:click="toggleAdd"
-          v-if="addingNewExample == false"
+          v-if="addingNewExample == false && isLoggedIn == true"
           >Add an Example</b-button
         >
         <b-button
           class="tagButton btn btn-danger"
           v-on:click="toggleAdd"
-          v-if="addingNewExample == true"
+          v-if="addingNewExample == true && isLoggedIn == true"
           >Cancel Add</b-button
         >
+        
       </form>
 
       <h3 id="tagHeader">Search By Tags:</h3>
@@ -230,7 +232,7 @@
                 convertFromUTF16(example.codeExample)
               }}</pre>
 
-              <p class="card-text">{{ example.attribution }}</p>
+              <p class="card-text">Source: {{ example.attribution }}</p>
 
               <div class="d-flex align-items-end mt-auto">
                 <div class="d-flex flex-row mt-auto">
@@ -259,7 +261,7 @@
               </div>
               <!-- end display of example language and search tags -->
 
-                <div class="d-flex flex-row justify-content-end">
+                <div class="d-flex flex-row justify-content-end" v-if="isLoggedIn == true">
                 <b-button
                   class="tagButton"
                   pill
@@ -507,6 +509,11 @@ export default {
 
       return allLanguages;
     },
+    isLoggedIn() {
+      if (this.$store.state.user.id > 0) {
+        return true
+      } return false
+    }
   }, // End of computed
   makeTagList() {
     let test = this.examples;
