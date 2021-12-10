@@ -45,11 +45,9 @@ public class JDBCExampleDAO implements ExampleDAO{
 
         int exampleId = getNextExampleId();
 
-<<<<<<< HEAD
-        // setting the language_id
-=======
+
         //setting the language_id
->>>>>>> e25f8c0865092db2f5d72f46f849e57eb42eab76
+
         String sql = "SELECT language_id FROM languages WHERE language_name = ?";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, example.getLanguageName());
