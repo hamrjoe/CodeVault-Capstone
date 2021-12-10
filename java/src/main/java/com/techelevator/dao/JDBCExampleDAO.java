@@ -82,6 +82,16 @@ public class JDBCExampleDAO implements ExampleDAO{
         }
     }
 
+    @Override
+    public void deleteExample(int exampleId){
+
+        String sqlTags = "DELETE FROM examples_tags WHERE example_id = ?; " +
+                "DELETE FROM examples WHERE example_id = ?";
+
+        jdbcTemplate.update(sqlTags, exampleId, exampleId);
+
+    }
+
     private Example mapRowToExample(SqlRowSet results) {
 
         Example example = new Example();

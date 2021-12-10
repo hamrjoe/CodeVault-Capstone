@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.ExampleDAO;
 import com.techelevator.model.Example;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,12 @@ public class ExampleController {
     @RequestMapping(path = "/examples", method = RequestMethod.POST)
     public void addExample(@RequestBody Example example) {
         exampleDAO.addExample(example);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(path = "/examples/{exampleId}", method = RequestMethod.DELETE)
+    public void deleteExample(@PathVariable int exampleId) {
+        exampleDAO.deleteExample(exampleId);
     }
 
 
