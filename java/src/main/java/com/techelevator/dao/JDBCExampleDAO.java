@@ -82,6 +82,42 @@ public class JDBCExampleDAO implements ExampleDAO{
         }
     }
 
+    @Override
+    public void deleteExample(int exampleId){
+
+        String sqlTags = "DELETE FROM examples_tags WHERE example_id = ?; " +
+                "DELETE FROM examples WHERE example_id = ?";
+
+        jdbcTemplate.update(sqlTags, exampleId, exampleId);
+
+    }
+
+    @Override
+    public void editExample(Example example) {
+
+
+        String sqlLanguageName = "SELECT language_id FROM languages WHERE language_name = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlLanguageName, example.getLanguageName());
+
+        if (results.next()) {
+            example.setLanguageId(results.getLong("language_id"));
+        }
+
+        String sql = "UPDATE examples " +
+                "SET title = ?, " +
+                "description = ?, " +
+                "language_id = ?, " +
+                "code_example = ?, " +
+                "attribution = ? " +
+                "WHERE example_id = ?";
+
+
+
+        jdbcTemplate.update(sql, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.getAttribution(),
+                example.getExampleId());
+    }
+
     private Example mapRowToExample(SqlRowSet results) {
 
         Example example = new Example();

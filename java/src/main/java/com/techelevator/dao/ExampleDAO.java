@@ -11,5 +11,9 @@ public interface ExampleDAO {
 
     void addExample(Example example);
 
+    void deleteExample(int exampleId);
+
+    void editExample(Example example);
+
 
 }
