@@ -320,9 +320,10 @@ export default {
     };
   }, // End of data
   created() {
+    if (this.$store.state.user.currentUser != {}) {
     exampleService.retrieveExamples().then((response) => {
       this.examples = response.data;
-    });
+    })}
   }, //End of created
   methods: {
     convertFromUTF16(exampleToConvert) {
@@ -368,7 +369,7 @@ export default {
         this.newExample.isPrivate = "";
         this.newExample.attribution = "";
         this.newExample.isDefault = "";
-        this.newExample.userId = 0;
+        this.newExample.userId = this.$store.state.user.currentUser;
         this.addingNewExample = !this.addingNewExample;
       } else {
         this.addingNewExample = !this.addingNewExample;
@@ -403,6 +404,7 @@ export default {
       }
       exampleToSubmit.codeExample = convertedCode.join(",");
       // Send new Example to Database
+      if (this.$store.state.user.currentUser != {}) {
       exampleService
         .addExample(exampleToSubmit)
         .then((response) => {
@@ -418,9 +420,10 @@ export default {
           this.toggleAdd();
           this.addMessage = 'Code Example could not be added!';
           console.log(error);
-        });
+        })}
     },
     deleteExampleCheck(deleteId) {
+      if (this.$store.state.user.currentUser != {})
       this.stageDelete = deleteId;
       this.deleteMessage = 'Are you sure you want to delete the example called ' + this.examples.find( (thisExample) => thisExample.exampleId == this.stageDelete).title + '?';
       scroll(0,0);

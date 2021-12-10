@@ -7,7 +7,7 @@ export default {
     },
 
     addExample(exampleToSubmit) {
-        return axios.post('/examples', exampleToSubmit );
+        return axios.post('/examples', exampleToSubmit);
     },
 
     deleteExample(exampleId) {

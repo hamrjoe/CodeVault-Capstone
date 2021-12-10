@@ -76,7 +76,7 @@ CREATE TABLE examples (
     is_default boolean,
 
     CONSTRAINT PK_examples PRIMARY KEY (example_id),
-    CONSTRAINT FK_examples_languages FOREIGN KEY (language_id) REFERENCES languages(language_id)
+    CONSTRAINT FK_examples_languages FOREIGN KEY (language_id) REFERENCES languages(language_id),
     CONSTRAINT FK_examples_users FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 

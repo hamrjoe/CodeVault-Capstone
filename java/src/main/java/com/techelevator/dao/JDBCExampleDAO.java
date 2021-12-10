@@ -58,7 +58,7 @@ public class JDBCExampleDAO implements ExampleDAO{
 
         // inserting example into examples table
         String exampleSql = "INSERT INTO examples(example_id, title, description, language_id, code_example, is_private, attribution, is_default, user_id) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(exampleSql, exampleId, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.isPrivate(), example.getAttribution(), example.isDefault(), example.getUserId());
 
