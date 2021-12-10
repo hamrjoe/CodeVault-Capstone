@@ -415,6 +415,7 @@ export default {
           }
         })
         .catch((error) => {
+          this.toggleAdd();
           this.addMessage = 'Code Example could not be added!';
           console.log(error);
         });
@@ -425,7 +426,24 @@ export default {
       scroll(0,0);
     },
     deleteExampleConfirm() {
-      exampleService.deleteExample(this.stageDelete);
+      exampleService
+        .deleteExample(this.stageDelete)
+        .then((response) => {
+          this.stageDelete = 0;
+          this.deleteMessage = '';
+          if (response.status == 204) {
+            this.addMessage = 'Code Example was deleted.';
+            exampleService.retrieveExamples().then((response) => {
+              this.examples = response.data;
+            });
+          }
+        })
+        .catch((error) => {
+          this.addMessage = 'Code Example was not deleted.';
+          console.log(error);
+        });
+      
+
     },
     deleteExampleCancel() {
       this.stageDelete = 0;
