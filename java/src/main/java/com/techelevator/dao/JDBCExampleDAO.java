@@ -116,6 +116,29 @@ public class JDBCExampleDAO implements ExampleDAO{
 
         jdbcTemplate.update(sql, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.getAttribution(),
                 example.getExampleId());
+
+
+        String deleteTags = "DELETE FROM examples_tags WHERE example_id = ?";
+
+        jdbcTemplate.update(deleteTags, example.getExampleId());
+
+        List<String> tagList = example.getTags();
+
+        for (String tag : tagList) {
+
+            String sqlTag = "SELECT tag_id FROM tags WHERE tag_name = ?";
+            SqlRowSet tagResults = jdbcTemplate.queryForRowSet(sqlTag, tag);
+
+            if (tagResults.next()) {
+                int tagId = tagResults.getInt("tag_id");
+
+                // inserting into examples_tags table
+
+
+                String tagSql = "INSERT INTO examples_tags(example_id, tag_id) VALUES(?, ?)";
+                jdbcTemplate.update(tagSql, example.getExampleId(), tagId);
+            }
+        }
     }
 
     private Example mapRowToExample(SqlRowSet results) {
