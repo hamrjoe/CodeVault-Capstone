@@ -60,7 +60,7 @@ public class JDBCExampleDAO implements ExampleDAO{
         String exampleSql = "INSERT INTO examples(example_id, title, description, language_id, code_example, is_private, attribution, is_default, user_id) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(exampleSql, exampleId, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.isPrivate(), example.getAttribution(), example.isDefault(), example.getUserId());
+        jdbcTemplate.update(exampleSql, exampleId, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.isPrivateExample(), example.getAttribution(), example.isDefaultExample(), example.getUserId());
 
         // get list of tags from JSON, loop through, unpack them
 
@@ -109,13 +109,15 @@ public class JDBCExampleDAO implements ExampleDAO{
                 "description = ?, " +
                 "language_id = ?, " +
                 "code_example = ?, " +
-                "attribution = ? " +
+                "attribution = ?, " +
+                "is_private = ?, " +
+                "is_default = ? " +
                 "WHERE example_id = ?";
 
 
 
         jdbcTemplate.update(sql, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.getAttribution(),
-                example.getExampleId());
+                example.isPrivateExample(), example.isDefaultExample(), example.getExampleId());
 
 
         String deleteTags = "DELETE FROM examples_tags WHERE example_id = ?";
@@ -151,10 +153,10 @@ public class JDBCExampleDAO implements ExampleDAO{
         example.setExampleId(results.getLong("example_id"));
         example.setLanguageName(results.getString("language_name"));
         example.setCodeExample(results.getString("code_example"));
-        example.setPrivate(results.getBoolean("is_private"));
+        example.setPrivateExample(results.getBoolean("is_private"));
         example.setAttribution(results.getString("attribution"));
         example.setUserId(results.getLong("user_id"));
-        example.setDefault(results.getBoolean("is_default"));
+        example.setDefaultExample(results.getBoolean("is_default"));
 
         return example;
 

@@ -39,12 +39,14 @@ public class ExampleController {
 
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/examples/{exampleId}", method = RequestMethod.DELETE)
     public void deleteExample(@PathVariable int exampleId) {
         exampleDAO.deleteExample(exampleId);
     }
 
-
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/examples/{exampleId}", method = RequestMethod.PUT)
     public void editExample(@RequestBody Example example, @PathVariable int exampleId, Principal user) {
         example.setExampleId(exampleId);

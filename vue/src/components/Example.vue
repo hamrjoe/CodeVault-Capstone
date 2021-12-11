@@ -186,17 +186,16 @@
                 </div>
 
                 <div class="d-flex flex-row justify-content-center">
-                  <!-- <input type="checkbox" v-model="newExample.isPrivate" /> -->
-                  <b-button
-                    class="tagButton opacity-100 flex-fill"
-                    v-on:click="togglePrivate"
-                    v-if="newExample.isPrivate == true"
-                    >Make Public</b-button
-                  >
                   <b-button
                     class="tagButton opacity-50 flex-fill"
                     v-on:click="togglePrivate"
-                    v-if="newExample.isPrivate == false"
+                    v-if="newExample.privateExample == true"
+                    >Make Public</b-button
+                  >
+                  <b-button
+                    class="tagButton opacity-100 flex-fill"
+                    v-on:click="togglePrivate"
+                    v-if="newExample.privateExample == false"
                     >Make Private</b-button
                   >
                   <b-button
@@ -223,50 +222,48 @@
           v-for="example in filterSnippets"
           v-bind:key="example.exampleId"
         >
-        <!-- Start Example Card -->
+        <!-- Start Edit Example Card -->
           <div class="card h-100" v-bind:class="[stageEdit === example.exampleId ? '' : 'hidden']">
-            this is a test
-            
             <div class="card-body d-flex flex-column">
               <form class="card-body d-flex flex-column" action="submit">
                 <input
                   type="text"
                   class="card-title"
                   placeholder="Title"
-                  v-model="newExample.title"
+                  v-model="editExample.title"
                 />
                 <textarea
                   class="card-text"
                   type="text"
                   placeholder="Description"
-                  v-model="newExample.description"
+                  v-model="editExample.description"
                 ></textarea>
                 <textarea
                   type="text"
                   class="d-card-text overflow: auto"
                   placeholder="Add code here"
-                  v-model="newExample.codeExample"
+                  v-model="editExample.codeExample"
                 ></textarea>
                 <input
                   type="text"
                   placeholder="Attribution"
-                  v-model="newExample.attribution"
+                  v-model="editExample.attribution"
                 />
                 <div>
                   <b-dropdown
                     id="dropdown-1"
                     variant="primary"
                     :text="
-                      newExample.languageName == ''
+                      editExample.languageName == ''
                         ? 'Choose Language'
-                        : newExample.languageName
+                        : editExample.languageName
                     "
                     class="m-md-2"
                   >
                     <b-dropdown-item
                       v-for="language in retrieveAllLanguages"
                       :key="language.id"
-                      v-on:click="addLanguageButton(language)"
+                      v-on:click="editLanguageButton(language)"
                       >{{ language }}</b-dropdown-item
                     >
                   </b-dropdown>
@@ -278,14 +275,14 @@
                 >
                   <div
                     class="tags"
-                    v-for="tag in newExample.tags"
+                    v-for="tag in editExample.tags"
                     v-bind:key="tag.tagId"
                   >
                     <b-button
                       class="tagButton btn opacity-100"
                       pill
                       variant="info"
-                      v-on:click="addTagButton(tag)"
+                      v-on:click="editTagButton(tag)"
                       >{{ tag }}</b-button
                     >
                   </div>
@@ -296,52 +293,49 @@
                 >
                   <div
                     class="tags"
-                    v-for="tag in retrieveTagsForNew"
+                    v-for="tag in retrieveTagsForEdit"
                     :key="tag.id"
                   >
                     <b-button
                       class="tagButton opacity-50"
                       variant="info"
                       pill
-                      v-on:click="addTagButton(tag)"
+                      v-on:click="editTagButton(tag)"
                       >{{ tag }}</b-button
                     >
                   </div>
                 </div>
 
                 <div class="d-flex flex-row justify-content-center">
-                  <!-- <input type="checkbox" v-model="newExample.isPrivate" /> -->
                   <b-button
-                    class="tagButton opacity-100 flex-fill"
-                    v-on:click="togglePrivate"
-                    v-if="newExample.isPrivate == true"
+                    class="tagButton opacity-50 flex-fill"
+                    v-on:click="togglePrivateEdit"
+                    v-if="editExample.privateExample === true"
                     >Make Public</b-button
                   >
                   <b-button
-                    class="tagButton opacity-50 flex-fill"
-                    v-on:click="togglePrivate"
-                    v-if="newExample.isPrivate == false"
+                    class="tagButton opacity-100 flex-fill"
+                    v-on:click="togglePrivateEdit"
+                    v-if="editExample.privateExample === false"
                     >Make Private</b-button
                   >
                   <b-button
                     class="tagButton flex-fill btn btn-danger"
-                    v-on:click.prevent="toggleAdd"
+                    v-on:click.prevent="cancelEdit"
                     >Cancel</b-button
                   >
                   <b-button
                     class="tagButton flex-fill btn btn-dark"
-                    v-on:click.prevent="submitNewExample"
+                    v-on:click.prevent="confirmEdit"
                     >Submit</b-button
                   >
                 </div>
               </form>
             </div>
           </div>
-            
-            
-          
- 
-   <!-- End Edit Example Card -->
+          <!-- End Edit Example Card -->
+
+          <!-- Start Display Card -->
           <div class="card h-100" v-bind:class="{hidden: stageEdit === example.exampleId}" >
             <div class="card-body d-flex flex-column" >
               <h4 class="card-title">{{ example.title }}</h4>
@@ -391,7 +385,7 @@
                   class="tagButton"
                   pill
                   variant="outline-dark"
-                  v-on:click="stageEditExample(example.exampleId)"
+                  v-on:click="stageEditExample(example)"
                   >Edit</b-button>
                 </div>
                 <!-- end of example control buttons -->
@@ -435,9 +429,22 @@ export default {
         languageName: "",
         languageId: 0,
         codeExample: "",
-        isPrivate: "",
+        privateExample: "",
         attribution: "",
-        isDefault: "",
+        defaultExample: "",
+        userId: 0,
+      },
+      editExample: {
+        title: "",
+        description: "",
+        tags: [],
+        exampleId: 0,
+        languageName: "",
+        languageId: 0,
+        codeExample: "",
+        privateExample: false,
+        attribution: "",
+        defaultExample: "",
         userId: 0,
       },
     };
@@ -467,8 +474,19 @@ export default {
         this.newExample.tags.push(tagOnButton);
       }
     },
+    editTagButton(tagOnButton) {
+      if (this.editExample.tags.includes(tagOnButton)) {
+        const index = this.editExample.tags.indexOf(tagOnButton);
+        this.editExample.tags.splice(index, 1);
+      } else {
+        this.editExample.tags.push(tagOnButton);
+      }
+    },
     addLanguageButton(languageOnButton) {
       this.newExample.languageName = languageOnButton;
+    },
+    editLanguageButton(languageOnButton) {
+      this.editExample.languageName = languageOnButton;
     },
     clearSearchInputs() {
       (this.filter.title = ""),
@@ -489,20 +507,37 @@ export default {
         this.newExample.languageId = 0;
         this.newExample.exampleId = 0;
         this.newExample.codeExample = "";
-        this.newExample.isPrivate = "";
+        this.newExample.privateExample = "";
         this.newExample.attribution = "";
-        this.newExample.isDefault = "";
+        this.newExample.defaultExample = "";
         this.newExample.userId = this.$store.state.user.id;
         this.addingNewExample = !this.addingNewExample;
       } else {
         this.addingNewExample = !this.addingNewExample;
       }
     },
+    cancelEdit() {
+      this.editExample.title = "";
+      this.editExample.description = "";
+      this.editExample.tags = [];
+      this.editExample.exampleId = 0;
+      this.editExample.languageName = "";
+      this.editExample.languageId = 0;
+      this.editExample.codeExample = "";
+      this.editExample.privateExample = false;
+      this.editExample.attribution = "";
+      this.editExample.defaultExample = "";
+      this.editExample.userId = this.$store.state.user.id;
+      this.stageEdit = 0;
+    },
     retrieveAllTagsMethod() {
       return this.retrieveAllTags;
     },
     togglePrivate() {
-      this.newExample.isPrivate = !this.newExample.isPrivate;
+      this.newExample.privateExample = !this.newExample.privateExample;
+    },
+    togglePrivateEdit() {
+      this.editExample.privateExample = !this.editExample.privateExample;
     },
     submitNewExample() {
       // Data Validation
@@ -545,9 +580,19 @@ export default {
           console.log(error);
         })}
     },
-    stageEditExample(exampleId){
-      this.stageEdit = exampleId;
-
+    stageEditExample(exampleObject){
+      this.editExample.title = exampleObject.title;
+      this.editExample.description = exampleObject.description;
+      this.editExample.tags = exampleObject.tags;
+      this.editExample.exampleId = exampleObject.exampleId;
+      this.editExample.languageName = exampleObject.languageName;
+      this.editExample.languageId = exampleObject.languageId;
+      this.editExample.codeExample = this.convertFromUTF16(exampleObject.codeExample);
+      this.editExample.privateExample = exampleObject.privateExample;
+      this.editExample.attribution = exampleObject.attribution;
+      this.editExample.defaultExample = exampleObject.defaultExample;
+      this.editExample.userId = this.$store.state.user.id;
+      this.stageEdit = exampleObject.exampleId;
     },
     deleteExampleCheck(deleteId) {
       if (this.$store.state.user.currentUser != {})
@@ -556,6 +601,7 @@ export default {
       scroll(0,0);
     },
     deleteExampleConfirm() {
+      if (this.$store.state.user.currentUser != {}) {
       exampleService
         .deleteExample(this.stageDelete)
         .then((response) => {
@@ -572,12 +618,52 @@ export default {
           this.addMessage = 'Code Example was not deleted.';
           console.log(error);
         });
-      
-
+      }
     },
     deleteExampleCancel() {
       this.stageDelete = 0;
       this.deleteMessage = '';
+    },
+    confirmEdit() {
+      // Data Validation
+      if (this.editExample.languageName == ""){
+        this.addMessage = 'Language must be selected';
+        throw 'Language must be selected';
+      }
+      if (this.editExample.codeExample == ""){
+        this.addMessage = 'Code example cannot be blank';
+        throw 'Code example cannot be blank';
+      }
+      if (this.editExample.title == ""){
+        this.addMessage = 'Title cannot be blank';
+        throw 'Title cannot be blank';
+      }
+      // Convert Code to UTF16
+      let exampleToResubmit = Object.assign({}, this.editExample);
+      let bufferArray = new ArrayBuffer(exampleToResubmit.codeExample.length * 2);
+      let convertedCode = new Uint16Array(bufferArray);
+      for (let i = 0; i < exampleToResubmit.codeExample.length; i++) {
+        convertedCode[i] = exampleToResubmit.codeExample.charCodeAt(i);
+      }
+      exampleToResubmit.codeExample = convertedCode.join(",");
+      // Send new Example to Database
+      if (this.$store.state.user.currentUser != {}) {
+      exampleService
+        .editExample(exampleToResubmit.exampleId, exampleToResubmit)
+        .then((response) => {
+          this.cancelEdit();
+          if (response.status == 201) {
+            this.addGoodMessage = 'Code Example was editted successfully.';
+            exampleService.retrieveExamples().then((response) => {
+              this.examples = response.data;
+            });
+          }
+        })
+        .catch((error) => {
+          this.addMessage = 'Code Example edit was not saved.';
+          console.log(error);
+        });
+      }
     }
   }, // End of methods
   computed: {
@@ -623,6 +709,12 @@ export default {
       const newExampleTags = this.newExample.tags;
       let newTags = this.retrieveAllTagsMethod();
       newTags = newTags.filter((tag) => !newExampleTags.includes(tag));
+      return newTags;
+    },
+    retrieveTagsForEdit() {
+      const editExampleTags = this.editExample.tags;
+      let newTags = this.retrieveAllTagsMethod();
+      newTags = newTags.filter((tag) => !editExampleTags.includes(tag));
       return newTags;
     },
     retrieveAllLanguages() {
