@@ -11,10 +11,10 @@ public class Example {
     private String languageName;
     private long languageId;
     private String codeExample;
-    private boolean isPrivate;
+    private boolean privateExample;
     private String attribution;
     private long userId;
-    private boolean isDefault;
+    private boolean defaultExample;
 
 
 
@@ -74,14 +74,6 @@ public class Example {
         this.codeExample = codeExample;
     }
 
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-    public void setPrivate(boolean aPrivate) {
-        isPrivate = aPrivate;
-    }
-
     public String getAttribution() {
         return attribution;
     }
@@ -98,11 +90,19 @@ public class Example {
         this.userId = userId;
     }
 
-    public boolean isDefault() {
-        return isDefault;
+    public boolean isPrivateExample() {
+        return privateExample;
     }
 
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
+    public void setPrivateExample(boolean privateExample) {
+        this.privateExample = privateExample;
+    }
+
+    public boolean isDefaultExample() {
+        return defaultExample;
+    }
+
+    public void setDefaultExample(boolean defaultExample) {
+        this.defaultExample = defaultExample;
     }
 }

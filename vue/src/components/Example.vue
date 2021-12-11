@@ -186,17 +186,16 @@
                 </div>
 
                 <div class="d-flex flex-row justify-content-center">
-                  <!-- <input type="checkbox" v-model="newExample.isPrivate" /> -->
                   <b-button
                     class="tagButton opacity-50 flex-fill"
                     v-on:click="togglePrivate"
-                    v-if="newExample.isPrivate == true"
+                    v-if="newExample.privateExample == true"
                     >Make Public</b-button
                   >
                   <b-button
                     class="tagButton opacity-100 flex-fill"
                     v-on:click="togglePrivate"
-                    v-if="newExample.isPrivate == false"
+                    v-if="newExample.privateExample == false"
                     >Make Private</b-button
                   >
                   <b-button
@@ -311,13 +310,13 @@
                   <b-button
                     class="tagButton opacity-50 flex-fill"
                     v-on:click="togglePrivateEdit"
-                    v-if="editExample.isPrivate === true"
+                    v-if="editExample.privateExample === true"
                     >Make Public</b-button
                   >
                   <b-button
                     class="tagButton opacity-100 flex-fill"
                     v-on:click="togglePrivateEdit"
-                    v-if="editExample.isPrivate === false"
+                    v-if="editExample.privateExample === false"
                     >Make Private</b-button
                   >
                   <b-button
@@ -430,9 +429,9 @@ export default {
         languageName: "",
         languageId: 0,
         codeExample: "",
-        isPrivate: "",
+        privateExample: "",
         attribution: "",
-        isDefault: "",
+        defaultExample: "",
         userId: 0,
       },
       editExample: {
@@ -443,9 +442,9 @@ export default {
         languageName: "",
         languageId: 0,
         codeExample: "",
-        isPrivate: false,
+        privateExample: false,
         attribution: "",
-        isDefault: "",
+        defaultExample: "",
         userId: 0,
       },
     };
@@ -508,9 +507,9 @@ export default {
         this.newExample.languageId = 0;
         this.newExample.exampleId = 0;
         this.newExample.codeExample = "";
-        this.newExample.isPrivate = "";
+        this.newExample.privateExample = "";
         this.newExample.attribution = "";
-        this.newExample.isDefault = "";
+        this.newExample.defaultExample = "";
         this.newExample.userId = this.$store.state.user.id;
         this.addingNewExample = !this.addingNewExample;
       } else {
@@ -525,9 +524,9 @@ export default {
       this.editExample.languageName = "";
       this.editExample.languageId = 0;
       this.editExample.codeExample = "";
-      this.editExample.isPrivate = false;
+      this.editExample.privateExample = false;
       this.editExample.attribution = "";
-      this.editExample.isDefault = "";
+      this.editExample.defaultExample = "";
       this.editExample.userId = this.$store.state.user.id;
       this.stageEdit = 0;
     },
@@ -535,10 +534,10 @@ export default {
       return this.retrieveAllTags;
     },
     togglePrivate() {
-      this.newExample.isPrivate = !this.newExample.isPrivate;
+      this.newExample.privateExample = !this.newExample.privateExample;
     },
     togglePrivateEdit() {
-      this.editExample.isPrivate = !this.editExample.isPrivate;
+      this.editExample.privateExample = !this.editExample.privateExample;
     },
     submitNewExample() {
       // Data Validation
@@ -589,9 +588,9 @@ export default {
       this.editExample.languageName = exampleObject.languageName;
       this.editExample.languageId = exampleObject.languageId;
       this.editExample.codeExample = this.convertFromUTF16(exampleObject.codeExample);
-      this.editExample.isPrivate = exampleObject.private;
+      this.editExample.privateExample = exampleObject.privateExample;
       this.editExample.attribution = exampleObject.attribution;
-      this.editExample.isDefault = exampleObject.default;
+      this.editExample.defaultExample = exampleObject.defaultExample;
       this.editExample.userId = this.$store.state.user.id;
       this.stageEdit = exampleObject.exampleId;
     },
