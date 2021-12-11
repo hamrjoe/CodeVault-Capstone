@@ -221,8 +221,8 @@
           v-for="example in filterSnippets"
           v-bind:key="example.exampleId"
         >
-          <div class="card h-100">
-            <div class="card-body d-flex flex-column">
+          <div class="card h-100" v-bind:class="{hidden: stageEdit === example.exampleId}" >
+            <div class="card-body d-flex flex-column" >
               <h4 class="card-title">{{ example.title }}</h4>
               <p class="card-text">description placeholder</p>
 
@@ -270,6 +270,7 @@
                   class="tagButton"
                   pill
                   variant="outline-dark"
+                  v-on:click="stageEditExample(example.exampleId)"
                   >Edit</b-button>
                 </div>
                 <!-- end of example control buttons -->
@@ -300,6 +301,7 @@ export default {
       addMessage: "",
       addGoodMessage: "",
       stageDelete: 0,
+      stageEdit: 0,
       deleteMessage: "",
       addingNewExample: false,
       tagFilter: "",
@@ -421,6 +423,10 @@ export default {
           this.addMessage = 'Code Example could not be added!';
           console.log(error);
         })}
+    },
+    stageEditExample(exampleId){
+      this.stageEdit = exampleId;
+
     },
     deleteExampleCheck(deleteId) {
       if (this.$store.state.user.currentUser != {})
@@ -565,6 +571,10 @@ form {
 
 #tagHeader {
   color: whitesmoke;
+}
+
+.hidden {
+  display: none;
 }
 
 </style>
