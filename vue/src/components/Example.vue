@@ -223,6 +223,125 @@
           v-for="example in filterSnippets"
           v-bind:key="example.exampleId"
         >
+        <!-- Start Example Card -->
+          <div class="card h-100" v-bind:class="[stageEdit === example.exampleId ? '' : 'hidden']">
+            this is a test
+            
+            <div class="card-body d-flex flex-column">
+              <form class="card-body d-flex flex-column" action="submit">
+                <input
+                  type="text"
+                  class="card-title"
+                  placeholder="Title"
+                  v-model="newExample.title"
+                />
+                <textarea
+                  class="card-text"
+                  type="text"
+                  placeholder="Description"
+                  v-model="newExample.description"
+                ></textarea>
+                <textarea
+                  type="text"
+                  class="d-card-text overflow: auto"
+                  placeholder="Add code here"
+                  v-model="newExample.codeExample"
+                ></textarea>
+                <input
+                  type="text"
+                  placeholder="Attribution"
+                  v-model="newExample.attribution"
+                />
+                <div>
+                  <b-dropdown
+                    id="dropdown-1"
+                    variant="primary"
+                    :text="
+                      newExample.languageName == ''
+                        ? 'Choose Language'
+                        : newExample.languageName
+                    "
+                    class="m-md-2"
+                  >
+                    <b-dropdown-item
+                      v-for="language in retrieveAllLanguages"
+                      :key="language.id"
+                      v-on:click="addLanguageButton(language)"
+                      >{{ language }}</b-dropdown-item
+                    >
+                  </b-dropdown>
+                </div>
+                <!-- <p>Selected</p> -->
+                <p class="labelText">Add/Remove Tags</p>
+                <div
+                  class="pillbox d-flex flex-wrap flex-row justify-content-start"
+                >
+                  <div
+                    class="tags"
+                    v-for="tag in newExample.tags"
+                    v-bind:key="tag.tagId"
+                  >
+                    <b-button
+                      class="tagButton btn opacity-100"
+                      pill
+                      variant="info"
+                      v-on:click="addTagButton(tag)"
+                      >{{ tag }}</b-button
+                    >
+                  </div>
+                </div>
+                <!-- <p>Available Tags</p> -->
+                <div
+                  class="pillbox d-flex flex-wrap flex-row justify-content-start"
+                >
+                  <div
+                    class="tags"
+                    v-for="tag in retrieveTagsForNew"
+                    :key="tag.id"
+                  >
+                    <b-button
+                      class="tagButton opacity-50"
+                      variant="info"
+                      pill
+                      v-on:click="addTagButton(tag)"
+                      >{{ tag }}</b-button
+                    >
+                  </div>
+                </div>
+
+                <div class="d-flex flex-row justify-content-center">
+                  <!-- <input type="checkbox" v-model="newExample.isPrivate" /> -->
+                  <b-button
+                    class="tagButton opacity-100 flex-fill"
+                    v-on:click="togglePrivate"
+                    v-if="newExample.isPrivate == true"
+                    >Make Public</b-button
+                  >
+                  <b-button
+                    class="tagButton opacity-50 flex-fill"
+                    v-on:click="togglePrivate"
+                    v-if="newExample.isPrivate == false"
+                    >Make Private</b-button
+                  >
+                  <b-button
+                    class="tagButton flex-fill btn btn-danger"
+                    v-on:click.prevent="toggleAdd"
+                    >Cancel</b-button
+                  >
+                  <b-button
+                    class="tagButton flex-fill btn btn-dark"
+                    v-on:click.prevent="submitNewExample"
+                    >Submit</b-button
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+            
+            
+          
+ 
+   <!-- End Edit Example Card -->
           <div class="card h-100" v-bind:class="{hidden: stageEdit === example.exampleId}" >
             <div class="card-body d-flex flex-column" >
               <h4 class="card-title">{{ example.title }}</h4>
