@@ -109,13 +109,15 @@ public class JDBCExampleDAO implements ExampleDAO{
                 "description = ?, " +
                 "language_id = ?, " +
                 "code_example = ?, " +
-                "attribution = ? " +
+                "attribution = ?, " +
+                "is_private = ?, " +
+                "is_default = ? " +
                 "WHERE example_id = ?";
 
 
 
         jdbcTemplate.update(sql, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.getAttribution(),
-                example.getExampleId());
+                example.isPrivateExample(), example.isDefaultExample(), example.getExampleId());
 
 
         String deleteTags = "DELETE FROM examples_tags WHERE example_id = ?";
