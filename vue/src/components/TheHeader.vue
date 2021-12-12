@@ -11,42 +11,27 @@
 
         
       <div>
-<div class="bg-primary">
-    <div class="navbar navbar-dark bg-transparent">
 
 
-     <b-navbar class="inner" toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="#">NavBar</b-navbar-brand>
 
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+     <b-navbar class="d-flex justify-content-center"  toggleable="lg" type="dark"  bg-transparent >
+    
 
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav >
+    
+      <b-navbar-nav    >
       
-<b-nav-item class="routeLink" v-bind:to="{ name: 'home' }">Home</b-nav-item>
-<b-nav-item class="routeLink" v-bind:to="{ name: 'examples-display' }">See Examples Now</b-nav-item>
-<b-nav-item class="routeLink" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</b-nav-item>
+<b-nav-item link-classes="text-white text" class="routeLink" v-bind:to="{ name: 'home' }" >Home</b-nav-item>
+<b-nav-item link-classes="text-white text" class="routeLink" v-bind:to="{ name: 'examples-display' }">Explore</b-nav-item>
+<b-nav-item link-classes="text-white text" class="routeLink" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</b-nav-item>
+<b-nav-item link-classes="text-white text" class="routeLink" v-bind:to="{ name: 'login' }" v-if="$store.state.token == ''">Login</b-nav-item>
 
      
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-       
-
-               <b-nav-item-dropdown right>
-          <!-- Using 'button-content' slot -->
-          <template #button-content>
-            <em>User</em>
-          </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
-    </b-collapse>
+    
+  
   </b-navbar>
- </div>
-</div>
 
 
 </div> <!-- END OF NAV BAR -->
@@ -60,7 +45,9 @@ export default {
 </script>
 
 <style>
-.inner {
-    background-color: transparent;
+.text {
+  font-size: 1.7rem;
+  color:rebeccapurple
+  
 }
 </style>
