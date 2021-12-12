@@ -1,5 +1,7 @@
 <template>
-  <div id="register" class="text-center">
+
+  <div id="register" class="text-center ">
+    
     <form class="form-register" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -32,12 +34,15 @@
         v-model="user.confirmPassword"
         required
       />
-      <router-link :to="{ name: 'login' }">Have an account?</router-link>
+      <router-link id="login" :to="{ name: 'login' }">Have an account?</router-link>
+      
       <button class="btn btn-lg btn-primary btn-block" type="submit">
         Create Account
       </button>
     </form>
   </div>
+
+ 
 </template>
 
 <script>
@@ -90,4 +95,51 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+body {
+
+
+  font-family: "Open Sans Condensed", sans-serif;
+}
+#register {
+  color: white;
+  padding: 1em;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+ 
+ 
+}
+
+form {
+  position: relative;
+  width: 20em;
+  margin: 0 auto;
+  background: rgba(54, 62, 134, 0.9);
+  padding: 20px 22px;
+  border: 1px solid;
+  border-radius: 2em;
+  
+}
+
+form input, form button {
+  
+  border: 1px solid;
+
+  
+
+  font: bold .875em/1.25em "Open Sans Condensed", sans-serif;
+  letter-spacing: .075em;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.1);
+  margin-bottom: 19px;
+
+  
+}
+
+#login {
+  display: inline-block;
+  margin: .2em;
+}
+</style>

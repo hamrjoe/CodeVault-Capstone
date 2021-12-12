@@ -1,26 +1,31 @@
 <template>
- <div  class="d-flex flex-column align-items-end h-100">
+ <div  class=" mainDiv d-flex ">
 
-    <b-container   >
+  
+<div class="row" >
+  <div id="invisibleColumn" class="col-auto"> Tooooooooooooooooooooooooooooo</div>
+  <div class="col align-self-center text-center">
 
-
-       <b-jumbotron class="test " >
  
-  <p class="lead">Code Snippet Library</p>
+ 
+  <div class="boxed ">
 
-  <p>Keeping track of your code is hard. We make it easy. - Jake</p>
+  <p class="p-1">Keeping track of your code is <u>hard</u>.</p>
+  <p class="p-2">We make it easy.</p>
 
     
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    <b-btn id="btn" variant="dark" class="routeLink" v-bind:to="{ name: 'register' }" href="#" role="button">Get Started</b-btn>
   
-       </b-jumbotron>
+ 
+       </div>
 
+ </div>
+ </div>
 
-
-       </b-container>
-
-
+       
 </div>
+
+
 </template>
 
 <script>
@@ -37,23 +42,53 @@ body {
 }
 
 
-.test {
-  background: rgba(110, 52, 116, 0.61);
-  margin-top: 25rem;
+
+#invisibleColumn {
+  color: transparent;
+}
+
+.boxed {
+  
+  width: 60rem;
+  height: 20rem;
+  background: rgba(53, 58, 107, 0.8);
+  border-radius: 1rem;
+  padding-top: 2em;
+  
+
+}
+.p-1   {
+  color: white;
+  font-style: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 300%;
+  
+  text-align: center;
+  
+  
+
+  
+  
+}
+.p-2 {
+    color: white;
+  font-style: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 300%;
+  text-align: center;
  
 }
+#btn {
 
-.test > p {
-  color:rgb(255, 255, 255);
-  opacity: 500%;
-  font-weight: 500;
-  font-size: 500%
+
+
+font-size: 1.7rem;
+
+font-weight:bold;
 }
 
-.container .test {
-    border-radius: 6px ;
+.mainDiv {
+  height: 80vh
 }
-
-
 
 </style>

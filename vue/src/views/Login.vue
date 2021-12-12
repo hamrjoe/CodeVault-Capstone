@@ -32,7 +32,9 @@
         required
       />
       <router-link class="routeLink" :to="{ name: 'register' }">Need an account?</router-link>
-      <b-button pill type="submit">Sign in</b-button>
+              <button class="btn btn-lg btn-primary btn-block" type="submit">
+        Sign in
+              </button>
     </form>
    <!-- <example /> -->
   </div>
@@ -79,16 +81,50 @@ export default {
 </script>
 
 <style scoped>
-form {
-  color: cyan;
-  margin-left: 35%;
-  margin-right: 35%;
+
+body {
+
+
+  font-family: "Open Sans Condensed", sans-serif;
+}
+#login {
+  color: white;
+  padding: 1em;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+ 
+ 
 }
 
-.routeLink {
-  color: cyan;
+form {
+  position: relative;
+  width: 20em;
+  margin: 0 auto;
+  background: rgba(54, 62, 134, 0.9);
+  padding: 20px 22px;
+  border: 1px solid;
+  border-radius: 2em;
+  
 }
-.routeLink:hover {
-  color: white;
+
+form input, form button {
+  
+  border: 1px solid;
+
+  
+
+  font: bold .875em/1.25em "Open Sans Condensed", sans-serif;
+  letter-spacing: .075em;
+  color: rgb(55, 46, 85);
+  text-shadow: 0 1px 0 rgba(0,0,0,.1);
+  margin-bottom: 19px;
+
+  
+}
+
+#register {
+ 
 }
 </style>

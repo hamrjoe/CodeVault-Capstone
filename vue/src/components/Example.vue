@@ -102,7 +102,7 @@
       <div class="row row-cols-1 row-cols-md-4 g-4">
         <!-- Add a Card Field -->
         <div class="col" v-if="this.addingNewExample == true">
-          <div class="card h-100">
+          <div class="card h-100" >
             <div class="card-body d-flex flex-column">
               <form class="card-body d-flex flex-column" action="submit">
                 <input
