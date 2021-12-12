@@ -374,19 +374,29 @@
               </div>
               <!-- end display of example language and search tags -->
 
-                <div class="d-flex flex-row justify-content-end" v-if="isLoggedIn == true">
+                <div class="d-flex flex-row justify-content-end">
                 <b-button
-                  class="tagButton"
-                  pill
-                  variant="outline-danger"
-                  v-on:click="deleteExampleCheck(example.exampleId)"
-                  >Delete</b-button>
+                class="tagButton"
+                pill
+                variant="outline-dark"
+                v-on:click="copyToClipboard(example.codeExample)"> 
+                <font-awesome-icon icon="copy"></font-awesome-icon>
+                </b-button>
+                <div v-if="isLoggedIn == true">
                 <b-button
                   class="tagButton"
                   pill
                   variant="outline-dark"
                   v-on:click="stageEditExample(example)"
                   >Edit</b-button>
+
+                  <b-button
+                  class="tagButton"
+                  pill
+                  variant="outline-danger"
+                  v-on:click="deleteExampleCheck(example.exampleId)"
+                  >Delete</b-button>
+                </div>
                 </div>
                 <!-- end of example control buttons -->
 
@@ -664,6 +674,13 @@ export default {
           console.log(error);
         });
       }
+    },
+    copyToClipboard(exampleCode) {
+      var copyText = this.convertFromUTF16(exampleCode)
+
+      navigator.clipboard.writeText(copyText);
+
+      this.addGoodMessage = "Copied to clipboard!"
     }
   }, // End of methods
   computed: {
