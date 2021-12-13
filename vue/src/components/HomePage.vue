@@ -1,5 +1,5 @@
 <template>
- <div  class=" mainDiv d-flex ">
+ <div  class=" mainDiv d-flex justify-content-center ">
 
   
 <div class="row" >

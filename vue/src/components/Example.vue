@@ -99,7 +99,7 @@
       <b-button class="tagButton btn btn-danger" v-if=" deleteMessage != '' " v-on:click="deleteExampleConfirm">Confirm Delete</b-button>
 
       <!-- start all card display -->
-      <div class="row row-cols-1 row-cols-md-3 g-3">
+      <div class="row row-cols-1 row-cols-md-3 g-3" >
         <!-- Add a Card Field -->
         <div class="col" v-if="this.addingNewExample == true">
           <div class="card h-100" >
@@ -216,14 +216,15 @@
         <!-- End Add Example Card -->
 
         <!-- Display all searched cards -->
-
-        <div
+        
+        <div 
           class="col"
           v-for="example in filterSnippets"
-          v-bind:key="example.exampleId"
+          v-bind:key="example.exampleId" 
         >
+      
         <!-- Start Edit Example Card -->
-          <div class="card h-100" v-bind:class="[stageEdit === example.exampleId ? '' : 'hidden']">
+          <div class="card h-100"  v-bind:class="[stageEdit === example.exampleId ? '' : 'hidden']">
             <div class="card-body d-flex flex-column">
               <form class="card-body d-flex flex-column" action="submit">
                 <input
@@ -235,7 +236,7 @@
                 <textarea
                   class="card-text"
                   type="text"
-                  placeholder="Description"
+                  placeholder="Description "
                   v-model="editExample.description"
                 ></textarea>
                 <textarea
@@ -249,6 +250,7 @@
                   placeholder="Attribution"
                   v-model="editExample.attribution"
                 />
+              
                 <div>
                   <b-dropdown
                     id="dropdown-1"
@@ -278,7 +280,7 @@
                     v-for="tag in editExample.tags"
                     v-bind:key="tag.tagId"
                   >
-                    <b-button
+                    <b-button 
                       class="tagButton btn opacity-100"
                       pill
                       variant="info"
@@ -339,7 +341,7 @@
           <div class="card h-100" v-bind:class="{hidden: stageEdit === example.exampleId}" >
             <div class="card-body d-flex flex-column" >
               <h4 class="card-title">{{ example.title }}</h4>
-              <p class="card-text">description placeholder</p>
+              <p class="card-text">Description placeholder</p>
 
               <pre class="codeDisplay border border-primary overflow-auto">{{
                 convertFromUTF16(example.codeExample)
@@ -383,14 +385,14 @@
                 <font-awesome-icon icon="copy"></font-awesome-icon>
                 </b-button>
                 <div v-if="isLoggedIn == true">
-                <b-button
+                <b-button v-if="$store.state.user.id === example.userId"
                   class="tagButton"
                   pill
                   variant="outline-dark"
                   v-on:click="stageEditExample(example)"
                   >Edit</b-button>
 
-                  <b-button
+                  <b-button  v-if="$store.state.user.id === example.userId"
                   class="tagButton"
                   pill
                   variant="outline-danger"
@@ -407,8 +409,9 @@
         </div>
         <!-- End Example Card Display Loop -->
       </div>
+      </div>
     </div>
-  </div>
+ 
 </template>
 
 <script>
