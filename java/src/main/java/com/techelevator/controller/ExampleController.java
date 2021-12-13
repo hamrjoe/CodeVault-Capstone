@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.ExampleDAO;
 import com.techelevator.dao.UserDAO;
 import com.techelevator.model.Example;
+import com.techelevator.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.http.HttpStatus;
@@ -22,9 +23,9 @@ public class ExampleController {
     private UserDAO userDAO;
 
     @RequestMapping(path = "/examples", method = RequestMethod.GET)
-    public List<Example> retrieveAllExamples() {
+    public List<Example> retrieveAllExamples(Principal user) {
 
-        return exampleDAO.retrieveAllExamples();
+        return exampleDAO.retrieveAllExamples(userDAO.findIdByUsername(user.getName()));
 
     }
 
@@ -41,7 +42,7 @@ public class ExampleController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/examples/{exampleId}", method = RequestMethod.DELETE)
-    public void deleteExample(@PathVariable int exampleId) {
+    public void deleteExample(@PathVariable int exampleId, @RequestBody Principal user) {
         exampleDAO.deleteExample(exampleId);
     }
 

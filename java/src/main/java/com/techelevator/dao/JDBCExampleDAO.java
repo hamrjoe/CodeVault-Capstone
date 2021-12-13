@@ -4,8 +4,11 @@ import com.techelevator.model.Example;
 
 
 import javax.sql.DataSource;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.techelevator.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -23,15 +26,27 @@ public class JDBCExampleDAO implements ExampleDAO{
 
 
     @Override
-    public List<Example> retrieveAllExamples() {
+    public List<Example> retrieveAllExamples(int userId) {
 
         List<Example> examples = new ArrayList();
 
         String sql = "SELECT * FROM examples " +
-                "JOIN languages ON languages.language_id = examples.language_id";
+                "JOIN languages ON languages.language_id = examples.language_id " +
+                "WHERE is_default = ?";
 
+        String searchTerm = "true";
 
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        if (userId > 0) {
+
+            sql = "SELECT * FROM examples " +
+                    "JOIN languages ON languages.language_id = examples.language_id " +
+                    "WHERE is_default = true AND user_id = ?";
+
+            searchTerm = Integer.toString(userId);
+
+        }
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, searchTerm);
 
         while (results.next()) {
             examples.add(mapRowToExample(results));
