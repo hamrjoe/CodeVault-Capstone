@@ -3,18 +3,22 @@
 
   
 <div class="row" >
-  <div id="invisibleColumn" class="col-auto"> Tooooooooooooooooooooooooooooo</div>
+
   <div class="col align-self-center text-center">
 
  
  
   <div class="boxed ">
 
-  <p class="p-1">Keeping track of your code is <u>hard</u>.</p>
-  <p class="p-2">We make it easy.</p>
+  <p class="p-1">Keeping track of your code is hard.</p>
+  <p class="p-2">We make it easy</p>
+   <b-btn id="btn" variant="primary" class="routeLink" v-bind:to="{ name: 'examples-display' }" href="#" role="button">Explore</b-btn>
+  <p class="p-3"> Store, edit, categorize your code snippets. </p>
+  <p class="p-4">Share with other users</p>
+
 
     
-    <b-btn id="btn" variant="dark" class="routeLink" v-bind:to="{ name: 'register' }" href="#" role="button">Get Started</b-btn>
+   
   
  
        </div>
@@ -40,30 +44,15 @@ export default {
 
 
 
-#invisibleColumn {
-  color: transparent;
-}
 
-.boxed {
-  
-  width: 60rem;
-  height: 20rem;
-  background: rgba(53, 58, 107, 0.8);
-  border-radius: 1rem;
-  padding-top: 2em;
-  
 
-}
 .p-1   {
   color: white;
   font-style: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 300%;
+  font-size: 500%;
   
   text-align: center;
-  
-  
-
   
   
 }
@@ -71,15 +60,32 @@ export default {
     color: white;
   font-style: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 300%;
+  font-size: 450%;
   text-align: center;
  
+}
+
+.p-3 {
+    color: white;
+  font-style: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 250%;
+  text-align: center;
+}
+
+.p-4 {
+    color: white;
+  font-style: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 250%;
+  text-align: center;
 }
 #btn {
 
 
 
-font-size: 1.7rem;
+font-size: 3em;
+margin: 1em;
 
 font-weight:bold;
 }

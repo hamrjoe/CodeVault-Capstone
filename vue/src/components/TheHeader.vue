@@ -14,19 +14,19 @@
 
 
 
-     <b-navbar id="nope" class=" d-flex justify-content-end vw-80"  toggleable="lg" type="dark"  bg-transparent >
-    
-
+     <b-navbar id="nope" class=" d-flex justify-content-between"  toggleable="lg" type="dark"  bg-transparent >
+    <img src="../assets/logotest.png"/>
+        <div>
     
       <b-navbar-nav    >
 <b-nav-item  class="routeLink text" v-bind:to="{ name: 'login' }" v-if="$store.state.token == ''">Login | </b-nav-item>
 <b-nav-item link-classes="text" class="routeLink" v-bind:to="{ name: 'home' }" v-if="$store.state.token != ''" >Home</b-nav-item>
-<b-nav-item link-classes="text" class="routeLink" v-bind:to="{ name: 'examples-display' }">Explore</b-nav-item>
+<b-nav-item link-classes="text" class="routeLink" v-bind:to="{ name: 'register' }">Register</b-nav-item>
 <b-nav-item link-classes="text" class="routeLink" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</b-nav-item>
-
 
      
       </b-navbar-nav>
+    </div>
 
       <!-- Right aligned nav items -->
     
@@ -45,11 +45,10 @@ export default {
 </script>
 
 <style>
-.nope {
-  width: 80%
- 
-  
-  
+
+
+img {
+  max-height: 100%;
 }
 
 .nav-item.nav-item.nav-item a {

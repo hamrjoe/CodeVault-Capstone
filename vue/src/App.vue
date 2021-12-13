@@ -20,11 +20,14 @@
 <style >
 
 
-body {
+body  {
   background:   url("https://i.ibb.co/v4zDfyy/india-homepage.jpg");
+  box-shadow: inset 0 0 0 1000px rgba(0,0,0,.3);
+  backdrop-filter: blur(4px);
+  height: 100vh
   
+  }
 
-}
 
 
 
