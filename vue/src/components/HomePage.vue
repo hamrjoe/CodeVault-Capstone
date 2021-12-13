@@ -37,9 +37,6 @@ export default {
 </script>
 
 <style scope>
-body {
-  background-image: url("https://i.ibb.co/v4zDfyy/india-homepage.jpg")
-}
 
 
 

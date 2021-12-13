@@ -38,6 +38,16 @@
           v-on:click.prevent="clearSearchInputs"
           >Show All</b-button
         >
+         <b-button
+          class="searchHeader"
+          variant="warning"
+          pill
+          v-on:click.prevent="toggleFavorite"
+          >Favorited <font-awesome-icon icon="star" ></font-awesome-icon>
+</b-button
+        >
+
+
         
         <b-button
           class="tagButton btn btn-success"
@@ -385,6 +395,11 @@
                 <font-awesome-icon icon="copy"></font-awesome-icon>
                 </b-button>
                 <div v-if="isLoggedIn == true">
+
+                  <b-button class="tagButton" 
+                  pill
+                  v-bind:variant=" example.favoriteExample == true ? 'warning' : 'outline-warning'"
+                  v-on:click="makeFavorite(example)"><font-awesome-icon icon="star" ></font-awesome-icon> </b-button>
                 <b-button v-if="$store.state.user.id === example.userId"
                   class="tagButton"
                   pill
@@ -425,6 +440,7 @@ export default {
         language: "",
         tags: "",
         searchedTags: [],
+        isFavorited: false,
       },
       addMessage: "",
       addGoodMessage: "",
@@ -446,6 +462,7 @@ export default {
         attribution: "",
         defaultExample: "",
         userId: 0,
+        favoriteExample: false,
       },
       editExample: {
         title: "",
@@ -459,6 +476,7 @@ export default {
         attribution: "",
         defaultExample: "",
         userId: 0,
+        favoriteExample: "",
       },
     };
   }, // End of data
@@ -506,6 +524,7 @@ export default {
         (this.filter.language = ""),
         (this.filter.tags = ""),
         (this.filter.searchedTags = []);
+        (this.filter.isFavorited = false);
     },
     clearMessages() {
       this.addMessage = '';
@@ -523,6 +542,7 @@ export default {
         this.newExample.privateExample = "";
         this.newExample.attribution = "";
         this.newExample.defaultExample = "";
+        this.newExample.favoriteExample = false,
         this.newExample.userId = this.$store.state.user.id;
         this.addingNewExample = !this.addingNewExample;
       } else {
@@ -541,6 +561,7 @@ export default {
       this.editExample.attribution = "";
       this.editExample.defaultExample = "";
       this.editExample.userId = this.$store.state.user.id;
+      this.editExample.favoriteExample = false;
       this.stageEdit = 0;
     },
     retrieveAllTagsMethod() {
@@ -551,6 +572,9 @@ export default {
     },
     togglePrivateEdit() {
       this.editExample.privateExample = !this.editExample.privateExample;
+    },
+    toggleFavorite() {
+      this.filter.isFavorited = !this.filter.isFavorited
     },
     submitNewExample() {
       // Data Validation
@@ -605,7 +629,18 @@ export default {
       this.editExample.attribution = exampleObject.attribution;
       this.editExample.defaultExample = exampleObject.defaultExample;
       this.editExample.userId = this.$store.state.user.id;
+      this.editExample.favoriteExample = exampleObject.favoriteExample;
       this.stageEdit = exampleObject.exampleId;
+
+    },
+    makeFavorite(example) {
+        this.stageEditExample(example);
+        this.stageEdit = 0;
+        console.log('before' + this.editExample.favoriteExample);
+        this.editExample.favoriteExample = !this.editExample.favoriteExample;
+        console.log('after' + this.editExample.favoriteExample);
+        this.confirmEdit()
+
     },
     deleteExampleCheck(deleteId) {
       if (this.$store.state.user.currentUser != {})
@@ -690,6 +725,12 @@ export default {
     filterSnippets() {
       let filteredExamples = this.examples;
 
+      if (this.filter.isFavorited === true) {
+        filteredExamples = filteredExamples.filter((example) => 
+        example.favoriteExample === true
+        )
+      }
+
       if (this.filter.title != "") {
         filteredExamples = filteredExamples.filter((example) =>
           example.title.toLowerCase().includes(this.filter.title.toLowerCase())
@@ -710,6 +751,8 @@ export default {
           example.tags.find((tag) => tag == this.filter.tags)
         );
       }
+
+    
 
       return filteredExamples;
     },

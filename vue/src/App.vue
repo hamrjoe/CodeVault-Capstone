@@ -17,19 +17,21 @@
   }
 </script>
 
-<style scope>
+<style >
 
 
+body {
+  background:   url("https://i.ibb.co/v4zDfyy/india-homepage.jpg");
+  
 
-
-.routeLink {
-  color: cyan;
 }
 
-#nav {
-  text-align: center;
-  margin: 20px;
-}
+
+
+
+
+
+
 
 </style>
 

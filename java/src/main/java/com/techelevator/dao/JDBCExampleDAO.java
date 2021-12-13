@@ -34,7 +34,7 @@ public class JDBCExampleDAO implements ExampleDAO{
 
             String sql = "SELECT * FROM examples " +
                     "JOIN languages ON languages.language_id = examples.language_id " +
-                    "WHERE is_default = true OR user_id = ?";
+                    "WHERE is_default = true OR is_private = false OR user_id = ?";
 
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
 
@@ -175,6 +175,7 @@ public class JDBCExampleDAO implements ExampleDAO{
         example.setAttribution(results.getString("attribution"));
         example.setUserId(results.getLong("user_id"));
         example.setDefaultExample(results.getBoolean("is_default"));
+        example.setFavoriteExample(results.getBoolean("is_favorite"));
 
         return example;
 

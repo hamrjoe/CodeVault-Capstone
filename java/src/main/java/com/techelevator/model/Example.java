@@ -15,8 +15,15 @@ public class Example {
     private String attribution;
     private long userId;
     private boolean defaultExample;
+    private boolean favoriteExample;
 
+    public boolean isFavoriteExample() {
+        return favoriteExample;
+    }
 
+    public void setFavoriteExample(boolean favoriteExample) {
+        this.favoriteExample = favoriteExample;
+    }
 
     public String getTitle() {
         return title;
