@@ -1,5 +1,5 @@
 <template>
- <div  class=" mainDiv d-flex ">
+ <div  class=" mainDiv d-flex justify-content-center ">
 
   
 <div class="row" >
@@ -53,7 +53,7 @@ body {
   height: 20rem;
   background: rgba(53, 58, 107, 0.8);
   border-radius: 1rem;
-  padding-top: 3em;
+  padding-top: 2em;
   
 
 }
