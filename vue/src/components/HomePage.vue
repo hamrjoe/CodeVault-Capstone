@@ -53,7 +53,7 @@ body {
   height: 20rem;
   background: rgba(53, 58, 107, 0.8);
   border-radius: 1rem;
-  padding-top: 2em;
+  padding-top: 3em;
   
 
 }
