@@ -99,7 +99,7 @@
       <b-button class="tagButton btn btn-danger" v-if=" deleteMessage != '' " v-on:click="deleteExampleConfirm">Confirm Delete</b-button>
 
       <!-- start all card display -->
-      <div class="row row-cols-1 row-cols-md-4 g-4" >
+      <div class="row row-cols-1 row-cols-md-3 g-3" >
         <!-- Add a Card Field -->
         <div class="col" v-if="this.addingNewExample == true">
           <div class="card h-100" >

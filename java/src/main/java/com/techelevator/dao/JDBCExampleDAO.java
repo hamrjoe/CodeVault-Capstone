@@ -30,26 +30,29 @@ public class JDBCExampleDAO implements ExampleDAO{
 
         List<Example> examples = new ArrayList();
 
-        String sql = "SELECT * FROM examples " +
-                "JOIN languages ON languages.language_id = examples.language_id " +
-                "WHERE is_default = ?";
-
-        String searchTerm = "true";
-
         if (userId > 0) {
 
-            sql = "SELECT * FROM examples " +
+            String sql = "SELECT * FROM examples " +
                     "JOIN languages ON languages.language_id = examples.language_id " +
-                    "WHERE is_default = true AND user_id = ?";
+                    "WHERE is_default = true OR user_id = ?";
 
-            searchTerm = Integer.toString(userId);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
 
+            while (results.next()) {
+                examples.add(mapRowToExample(results));
+            }
         }
+        else {
+            String sql = "SELECT * FROM examples " +
+                    "JOIN languages ON languages.language_id = examples.language_id " +
+                    "WHERE is_default = true";
 
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, searchTerm);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 
-        while (results.next()) {
-            examples.add(mapRowToExample(results));
+            while (results.next()) {
+                examples.add(mapRowToExample(results));
+            }
+
         }
 
         return examples;

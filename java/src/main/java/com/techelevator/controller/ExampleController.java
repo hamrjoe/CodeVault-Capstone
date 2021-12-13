@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.sql.SQLOutput;
 import java.util.List;
 
 @RestController
@@ -24,9 +25,14 @@ public class ExampleController {
 
     @RequestMapping(path = "/examples", method = RequestMethod.GET)
     public List<Example> retrieveAllExamples(Principal user) {
+        int userId = 0;
+        try {
+            userId = userDAO.findIdByUsername(user.getName());
+        }
+        catch (Exception ex) {
 
-        return exampleDAO.retrieveAllExamples(userDAO.findIdByUsername(user.getName()));
-
+        }
+        return exampleDAO.retrieveAllExamples(userId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
