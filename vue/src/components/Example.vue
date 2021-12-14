@@ -33,17 +33,17 @@
         <!--Show all button -->
         <b-button
           class="searchHeader"
-          variant="dark"
+          variant="secondary"
           pill
           v-on:click.prevent="clearSearchInputs"
           >Show All</b-button
         >
          <b-button
           class="searchHeader"
-          variant="warning"
+          v-bind:variant="filter.isFavorited == true ? 'warning' : 'light' "
           pill
           v-on:click.prevent="toggleFavorite"
-          >Favorited <font-awesome-icon icon="star" ></font-awesome-icon>
+          >Favorites <font-awesome-icon icon="star" ></font-awesome-icon>
 </b-button
         >
 
