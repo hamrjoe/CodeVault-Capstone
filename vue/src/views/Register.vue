@@ -131,7 +131,7 @@ form input, form button {
 
   font: bold .875em/1.25em "Open Sans Condensed", sans-serif;
   letter-spacing: .075em;
-  color: #fff;
+  color: rgb(20, 20, 20);
   text-shadow: 0 1px 0 rgba(0,0,0,.1);
   margin-bottom: 19px;
 
