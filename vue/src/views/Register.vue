@@ -102,7 +102,7 @@ body {
   font-family: "Open Sans Condensed", sans-serif;
 }
 #register {
-  color: white;
+  color: rgb(0, 0, 0);
   padding: 1em;
   left: 0;
   top: 0;
@@ -116,10 +116,11 @@ form {
   position: relative;
   width: 20em;
   margin: 0 auto;
-  background: rgba(54, 62, 134, 0.9);
+  background: rgb(72, 117, 201, .3);
   padding: 20px 22px;
   border: 1px solid;
   border-radius: 2em;
+  font-weight: bold;
   
 }
 
@@ -134,8 +135,12 @@ form input, form button {
   color: rgb(20, 20, 20);
   text-shadow: 0 1px 0 rgba(0,0,0,.1);
   margin-bottom: 19px;
-
   
+  
+}
+
+.form-register {
+  color: white;
 }
 
 #login {

@@ -50,9 +50,10 @@ export default {
   color: white;
   font-style: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 500%;
+  font-size: 400%;
   
   text-align: center;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
   
   
 }
@@ -60,8 +61,9 @@ export default {
     color: white;
   font-style: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 450%;
+  font-size: 380%;
   text-align: center;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
  
 }
 
@@ -71,6 +73,7 @@ export default {
   font-weight: 500;
   font-size: 250%;
   text-align: center;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
 }
 
 .p-4 {
@@ -79,15 +82,17 @@ export default {
   font-weight: 500;
   font-size: 250%;
   text-align: center;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
 }
 #btn {
 
 
 
 font-size: 3em;
-margin: 1em;
+margin: .3em;
 
 font-weight:bold;
+text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
 }
 
 .mainDiv {

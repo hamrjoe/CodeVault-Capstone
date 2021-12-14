@@ -32,9 +32,10 @@
         required
       />
       <router-link class="routeLink" :to="{ name: 'register' }">Need an account?</router-link>
-              <button class="btn btn-lg btn-primary btn-block" type="submit">
+      
+      <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">
         Sign in
-              </button>
+      </button>
     </form>
    <!-- <example /> -->
   </div>
@@ -65,7 +66,7 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
-            this.$router.push("/");
+            this.$router.push("/examples-display");
           }
         })
         .catch(error => {
@@ -88,7 +89,7 @@ body {
   font-family: "Open Sans Condensed", sans-serif;
 }
 #login {
-  color: white;
+  
   padding: 1em;
   left: 0;
   top: 0;
@@ -102,10 +103,12 @@ form {
   position: relative;
   width: 20em;
   margin: 0 auto;
-  background: rgba(54, 62, 134, 0.9);
+  background: rgb(72, 117, 201, .3);
   padding: 20px 22px;
   border: 1px solid;
   border-radius: 2em;
+
+  font-weight: bold;
   
 }
 
@@ -117,14 +120,28 @@ form input, form button {
 
   font: bold .875em/1.25em "Open Sans Condensed", sans-serif;
   letter-spacing: .075em;
-  color: rgb(55, 46, 85);
+  color: rgb(0, 0, 0);
   text-shadow: 0 1px 0 rgba(0,0,0,.1);
-  margin-bottom: 19px;
+  margin-bottom: .5em;
 
   
 }
 
-#register {
- 
+.form-signin {
+
+  color: rgb(255, 255, 255);
+
+
+}
+
+.routeLink {
+  display: inline-block;
+  margin: .5em;
+}
+
+#submit {
+  
+  display: block;
+  margin: auto;
 }
 </style>

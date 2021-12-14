@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <div>
+    <div class="top">
       <form class="d-flex flex-row justify-content-start">
         <input
           class="searchHeader flex-grow"
@@ -109,7 +109,7 @@
       <b-button class="tagButton btn btn-danger" v-if=" deleteMessage != '' " v-on:click="deleteExampleConfirm">Confirm Delete</b-button>
 
       <!-- start all card display -->
-      <div class="row row-cols-1 row-cols-md-3 g-3" >
+      <div id="allCards" class="row row-cols-1 row-cols-md-3 g-3" >
         <!-- Add a Card Field -->
         <div class="col" v-if="this.addingNewExample == true">
           <div class="card h-100" >
@@ -868,6 +868,14 @@ form {
   display: none;
 }
 
+.top {
+  margin-top: 1.5em;
+}
+
+#allCards {
+  margin-top: .7em;
+  margin-bottom: .7em;
+}
 </style>
 
 
