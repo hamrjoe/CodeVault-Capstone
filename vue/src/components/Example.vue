@@ -760,7 +760,9 @@ export default {
         );
       }
 
-    
+      filteredExamples = filteredExamples.sort((a,b) => 
+        (a.title.toLowerCase() < b.title.toLowerCase()) ? -1 : (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : 0
+      );
 
       return filteredExamples;
     },
