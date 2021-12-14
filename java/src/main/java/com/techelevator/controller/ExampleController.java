@@ -44,6 +44,12 @@ public class ExampleController {
 
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(path =  "/examples/{exampleId}/favorite", method = RequestMethod.PUT)
+    public void toggleFavorite(@PathVariable int exampleId){
+        exampleDAO.toggleFavorite(exampleId);
+    }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -52,7 +58,7 @@ public class ExampleController {
         exampleDAO.deleteExample(exampleId);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/examples/{exampleId}", method = RequestMethod.PUT)
     public void editExample(@RequestBody Example example, @PathVariable int exampleId, Principal user) {

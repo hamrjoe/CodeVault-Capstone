@@ -110,6 +110,12 @@ public class JDBCExampleDAO implements ExampleDAO{
 
     }
 
+    public void toggleFavorite(int exampleId){
+        String sql = "UPDATE EXAMPLES SET is_favorite = NOT is_favorite WHERE example_id = ?";
+
+        jdbcTemplate.update(sql, exampleId);
+    }
+
     @Override
     public void editExample(Example example) {
 

@@ -17,5 +17,6 @@ public interface ExampleDAO {
 
     void editExample(Example example);
 
+    void toggleFavorite(int exampleId);
 
 }

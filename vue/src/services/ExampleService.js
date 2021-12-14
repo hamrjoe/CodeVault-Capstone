@@ -18,4 +18,8 @@ export default {
         return axios.put(`/examples/${exampleId}`, example);
     },
 
+    toggleFavorite(exampleId){
+        return axios.put(`/examples/${exampleId}/favorite`)
+    }
+
 }
