@@ -21,6 +21,7 @@
       <b-navbar-nav    >
 <b-nav-item  class="routeLink text" v-bind:to="{ name: 'login' }" v-if="$store.state.token == ''">Login | </b-nav-item>
 <b-nav-item id="home" link-classes="text" class="routeLink" v-bind:to="{ name: 'home' }" v-if="$store.state.token != ''" >Home |</b-nav-item>
+
 <b-nav-item link-classes="text" class="routeLink" v-bind:to="{ name: 'register' }" v-if="$store.state.token == ''">Register</b-nav-item>
 <b-nav-item link-classes="text" class="routeLink" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</b-nav-item>
 

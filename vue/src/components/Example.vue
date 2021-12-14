@@ -40,6 +40,7 @@
         >
          <b-button
           class="searchHeader"
+          v-if="isLoggedIn == true"
           v-bind:variant="filter.isFavorited == true ? 'warning' : 'light' "
           pill
           v-on:click.prevent="toggleFavorite"
