@@ -33,17 +33,17 @@
         <!--Show all button -->
         <b-button
           class="searchHeader"
-          variant="dark"
+          variant="secondary"
           pill
           v-on:click.prevent="clearSearchInputs"
           >Show All</b-button
         >
          <b-button
           class="searchHeader"
-          variant="warning"
+          v-bind:variant="filter.isFavorited == true ? 'warning' : 'light' "
           pill
           v-on:click.prevent="toggleFavorite"
-          >Favorited <font-awesome-icon icon="star" ></font-awesome-icon>
+          >Favorites <font-awesome-icon icon="star" ></font-awesome-icon>
 </b-button
         >
 
@@ -633,15 +633,23 @@ export default {
       this.stageEdit = exampleObject.exampleId;
 
     },
-    makeFavorite(example) {
-        this.stageEditExample(example);
-        this.stageEdit = 0;
-        console.log('before' + this.editExample.favoriteExample);
-        this.editExample.favoriteExample = !this.editExample.favoriteExample;
-        console.log('after' + this.editExample.favoriteExample);
-        this.confirmEdit()
-
-    },
+    makeFavorite(exampleToFavorite) {
+      if (this.$store.state.user.currentUser != {}){
+        exampleService
+          .toggleFavorite(exampleToFavorite.exampleId)
+          .then((response) => {
+          if(response.status == 200) {
+            exampleService.retrieveExamples().then((response) => {
+              this.examples = response.data;
+            });
+            }
+          })
+          .catch((error) => {
+            this.addMessage = 'Code Example could not be favorited.';
+            console.log(error);
+          });
+        }
+       },
     deleteExampleCheck(deleteId) {
       if (this.$store.state.user.currentUser != {})
       this.stageDelete = deleteId;
@@ -700,8 +708,8 @@ export default {
         .editExample(exampleToResubmit.exampleId, exampleToResubmit)
         .then((response) => {
           this.cancelEdit();
-          if (response.status == 201) {
-            this.addGoodMessage = 'Code Example was editted successfully.';
+          if (response.status == 200) {
+            this.addGoodMessage = 'Code Example was edited successfully.';
             exampleService.retrieveExamples().then((response) => {
               this.examples = response.data;
             });
@@ -752,7 +760,9 @@ export default {
         );
       }
 
-    
+      filteredExamples = filteredExamples.sort((a,b) => 
+        (a.title.toLowerCase() < b.title.toLowerCase()) ? -1 : (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : 0
+      );
 
       return filteredExamples;
     },
