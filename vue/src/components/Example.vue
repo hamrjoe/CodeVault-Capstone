@@ -1,7 +1,8 @@
 <template>
   <div class="background">
     <div class="top">
-      <form class="d-flex flex-row justify-content-start">
+      <div class="d-flex row row-cols-1 row-cols-md-3 g-3">
+      <form class="d-flex flex-row justify-content-end">
         <input
           class="searchHeader flex-grow"
           placeholder="search title"
@@ -38,36 +39,21 @@
           v-on:click.prevent="clearSearchInputs"
           >Show All</b-button
         >
-         <b-button
+        <b-button
           class="searchHeader"
           v-if="isLoggedIn == true"
-          v-bind:variant="filter.isFavorited == true ? 'warning' : 'light' "
+          v-bind:variant="filter.isFavorited == true ? 'warning' : 'light'"
           pill
           v-on:click.prevent="toggleFavorite"
-          >Favorites <font-awesome-icon icon="star" ></font-awesome-icon>
-</b-button
-        >
-
-
-        
-        <b-button
-          class="tagButton btn btn-success"
-          v-on:click="toggleAdd"
-          v-if="addingNewExample == false && isLoggedIn == true"
-          >Add an Example</b-button
-        >
-        <b-button
-          class="tagButton btn btn-danger"
-          v-on:click="toggleAdd"
-          v-if="addingNewExample == true && isLoggedIn == true"
-          >Cancel Add</b-button
-        >
-        
+          >Favorites <font-awesome-icon icon="star"></font-awesome-icon>
+        </b-button>
       </form>
 
-      <h3 id="tagHeader">Search By Tags:</h3>
+      <div class="d-flex flex-row justify-content-end">
+        <h3 id="tagHeader">Search By Tags:</h3>
+      </div>
       <div id="pillcase">
-        <div class="pillbox d-flex flex-row flex-wrap justify-content-start">
+        <div class="pillbox d-flex flex-row flex-wrap justify-content-end">
           <div
             class="tags"
             v-for="language in retrieveAllLanguages"
@@ -82,7 +68,7 @@
             >
           </div>
         </div>
-        <div class="tags d-flex flex-row flex-wrap justify-content-start">
+        <div class="tags d-flex flex-row flex-wrap justify-content-end">
           <div class="tags" v-for="tag in retrieveAllTags" :key="tag.id">
             <b-button
               class="tagButton"
@@ -95,25 +81,58 @@
         </div>
       </div>
 
-      <!-- <div v-for="example in filterSnippets" v-bind:key="example.exampleId">
-      <p class="formatCode">{{ example.title }}</p>
-      <pre class="formatCode">{{ convertFromUTF16(example.codeExample) }}</pre>
-      <p>{{example.languageName}}</p>
-      <p v-for="tag in example.tags" v-bind:key="tag"></p>
-      
-    </div> -->
+      <div class="d-flex flex-row justify-content-start">
+        <b-button
+          id="addExampleButton"
+          class="tagButton btn btn-success"
+          v-on:click="toggleAdd"
+          v-if="addingNewExample == false && isLoggedIn == true"
+          >Add an Example</b-button
+        >
+        <b-button
+          class="tagButton btn btn-danger"
+          v-on:click="toggleAdd"
+          v-if="addingNewExample == true && isLoggedIn == true"
+          >Cancel Add</b-button
+        >
+      </div>
+      </div>
+     
 
-      <b-button class="tagButton btn btn-danger" v-if="this.addMessage != ''" v-on:click="clearMessages">{{ this.addMessage }}</b-button>
-      <b-button class="tagButton btn btn-success" v-if="this.addGoodMessage != ''" v-on:click="clearMessages">{{ this.addGoodMessage }}</b-button>
-      <b-button class="tagButton btn btn-danger" v-if=" deleteMessage != '' "> {{ this.deleteMessage }}</b-button>
-      <b-button class="tagButton btn btn-dark" v-if=" deleteMessage != '' " v-on:click="deleteExampleCancel"> Cancel</b-button>
-      <b-button class="tagButton btn btn-danger" v-if=" deleteMessage != '' " v-on:click="deleteExampleConfirm">Confirm Delete</b-button>
+      <b-button
+        class="tagButton btn btn-danger"
+        v-if="this.addMessage != ''"
+        v-on:click="clearMessages"
+        >{{ this.addMessage }}</b-button
+      >
+      <b-button
+        class="tagButton btn btn-success"
+        v-if="this.addGoodMessage != ''"
+        v-on:click="clearMessages"
+        >{{ this.addGoodMessage }}</b-button
+      >
+      <b-button class="tagButton btn btn-danger" v-if="deleteMessage != ''">
+        {{ this.deleteMessage }}</b-button
+      >
+      <b-button
+        class="tagButton btn btn-dark"
+        v-if="deleteMessage != ''"
+        v-on:click="deleteExampleCancel"
+      >
+        Cancel</b-button
+      >
+      <b-button
+        class="tagButton btn btn-danger"
+        v-if="deleteMessage != ''"
+        v-on:click="deleteExampleConfirm"
+        >Confirm Delete</b-button
+      >
 
       <!-- start all card display -->
-      <div id="allCards" class="row row-cols-1 row-cols-md-3 g-3" >
+      <div id="allCards" class="row row-cols-1 row-cols-md-3 g-3">
         <!-- Add a Card Field -->
         <div class="col" v-if="this.addingNewExample == true">
-          <div class="card h-100" >
+          <div class="card h-100">
             <div class="card-body d-flex flex-column">
               <form class="card-body d-flex flex-column" action="submit">
                 <input
@@ -227,15 +246,17 @@
         <!-- End Add Example Card -->
 
         <!-- Display all searched cards -->
-        
-        <div 
+
+        <div
           class="col"
           v-for="example in filterSnippets"
-          v-bind:key="example.exampleId" 
+          v-bind:key="example.exampleId"
         >
-      
-        <!-- Start Edit Example Card -->
-          <div class="card h-100"  v-bind:class="[stageEdit === example.exampleId ? '' : 'hidden']">
+          <!-- Start Edit Example Card -->
+          <div
+            class="card h-100"
+            v-bind:class="[stageEdit === example.exampleId ? '' : 'hidden']"
+          >
             <div class="card-body d-flex flex-column">
               <form class="card-body d-flex flex-column" action="submit">
                 <input
@@ -261,7 +282,7 @@
                   placeholder="Attribution"
                   v-model="editExample.attribution"
                 />
-              
+
                 <div>
                   <b-dropdown
                     id="dropdown-1"
@@ -291,7 +312,7 @@
                     v-for="tag in editExample.tags"
                     v-bind:key="tag.tagId"
                   >
-                    <b-button 
+                    <b-button
                       class="tagButton btn opacity-100"
                       pill
                       variant="info"
@@ -349,10 +370,13 @@
           <!-- End Edit Example Card -->
 
           <!-- Start Display Card -->
-          <div class="card h-100" v-bind:class="{hidden: stageEdit === example.exampleId}" >
-            <div class="card-body d-flex flex-column" >
+          <div
+            class="card h-100"
+            v-bind:class="{ hidden: stageEdit === example.exampleId }"
+          >
+            <div class="card-body d-flex flex-column">
               <h4 class="card-title">{{ example.title }}</h4>
-              <p class="card-text">Description placeholder</p>
+              <p class="card-text">{{ example.description }}</p>
 
               <pre class="codeDisplay border border-primary overflow-auto">{{
                 convertFromUTF16(example.codeExample)
@@ -362,62 +386,71 @@
 
               <div class="d-flex align-items-end mt-auto">
                 <div class="d-flex flex-row mt-auto">
-                <b-button
-                  class="tagButton"
-                  variant="primary"
-                  pill
-                  v-on:click="languageTagButton(example.languageName)"
-                  >{{ example.languageName }}</b-button
-                >
-                <div
-                  class="tags"
-                  v-for="tag in example.tags"
-                  v-bind:key="tag.tagId"
-                >
                   <b-button
                     class="tagButton"
+                    variant="primary"
                     pill
-                    variant="info"
-                    v-on:click="tagButton(tag)"
-                    >{{ tag }}</b-button
+                    v-on:click="languageTagButton(example.languageName)"
+                    >{{ example.languageName }}</b-button
                   >
+                  <div
+                    class="tags"
+                    v-for="tag in example.tags"
+                    v-bind:key="tag.tagId"
+                  >
+                    <b-button
+                      class="tagButton"
+                      pill
+                      variant="info"
+                      v-on:click="tagButton(tag)"
+                      >{{ tag }}</b-button
+                    >
+                  </div>
                 </div>
-                </div>
-
               </div>
               <!-- end display of example language and search tags -->
 
-                <div class="d-flex flex-row justify-content-end">
+              <div class="d-flex flex-row justify-content-end">
                 <b-button
-                class="tagButton"
-                pill
-                variant="outline-dark"
-                v-on:click="copyToClipboard(example.codeExample)"> 
-                <font-awesome-icon icon="copy"></font-awesome-icon>
-                </b-button>
-                <div v-if="isLoggedIn == true">
-
-                  <b-button class="tagButton" 
-                  pill
-                  v-bind:variant=" example.favoriteExample == true ? 'warning' : 'outline-warning'"
-                  v-on:click="makeFavorite(example)"><font-awesome-icon icon="star" ></font-awesome-icon> </b-button>
-                <b-button v-if="$store.state.user.id === example.userId"
                   class="tagButton"
                   pill
                   variant="outline-dark"
-                  v-on:click="stageEditExample(example)"
-                  >Edit</b-button>
+                  v-on:click="copyToClipboard(example.codeExample)"
+                >
+                  <font-awesome-icon icon="copy"></font-awesome-icon>
+                </b-button>
+                <div v-if="isLoggedIn == true">
+                  <b-button
+                    class="tagButton"
+                    pill
+                    v-bind:variant="
+                      example.favoriteExample == true
+                        ? 'warning'
+                        : 'outline-warning'
+                    "
+                    v-on:click="makeFavorite(example)"
+                    ><font-awesome-icon icon="star"></font-awesome-icon>
+                  </b-button>
+                  <b-button
+                    v-if="$store.state.user.id === example.userId"
+                    class="tagButton"
+                    pill
+                    variant="outline-dark"
+                    v-on:click="stageEditExample(example)"
+                    >Edit</b-button
+                  >
 
-                  <b-button  v-if="$store.state.user.id === example.userId"
-                  class="tagButton"
-                  pill
-                  variant="outline-danger"
-                  v-on:click="deleteExampleCheck(example.exampleId)"
-                  >Delete</b-button>
+                  <b-button
+                    v-if="$store.state.user.id === example.userId"
+                    class="tagButton"
+                    pill
+                    variant="outline-danger"
+                    v-on:click="deleteExampleCheck(example.exampleId)"
+                    >Delete</b-button
+                  >
                 </div>
-                </div>
-                <!-- end of example control buttons -->
-
+              </div>
+              <!-- end of example control buttons -->
             </div>
             <!-- end card body -->
           </div>
@@ -425,9 +458,8 @@
         </div>
         <!-- End Example Card Display Loop -->
       </div>
-      </div>
     </div>
- 
+  </div>
 </template>
 
 <script>
@@ -483,9 +515,10 @@ export default {
   }, // End of data
   created() {
     if (this.$store.state.user.currentUser != {}) {
-    exampleService.retrieveExamples().then((response) => {
-      this.examples = response.data;
-    })}
+      exampleService.retrieveExamples().then((response) => {
+        this.examples = response.data;
+      });
+    }
   }, //End of created
   methods: {
     convertFromUTF16(exampleToConvert) {
@@ -525,11 +558,11 @@ export default {
         (this.filter.language = ""),
         (this.filter.tags = ""),
         (this.filter.searchedTags = []);
-        (this.filter.isFavorited = false);
+      this.filter.isFavorited = false;
     },
     clearMessages() {
-      this.addMessage = '';
-      this.addGoodMessage = '';
+      this.addMessage = "";
+      this.addGoodMessage = "";
     },
     toggleAdd() {
       if (this.addingNewExample) {
@@ -543,8 +576,8 @@ export default {
         this.newExample.privateExample = "";
         this.newExample.attribution = "";
         this.newExample.defaultExample = "";
-        this.newExample.favoriteExample = false,
-        this.newExample.userId = this.$store.state.user.id;
+        (this.newExample.favoriteExample = false),
+          (this.newExample.userId = this.$store.state.user.id);
         this.addingNewExample = !this.addingNewExample;
       } else {
         this.addingNewExample = !this.addingNewExample;
@@ -575,21 +608,21 @@ export default {
       this.editExample.privateExample = !this.editExample.privateExample;
     },
     toggleFavorite() {
-      this.filter.isFavorited = !this.filter.isFavorited
+      this.filter.isFavorited = !this.filter.isFavorited;
     },
     submitNewExample() {
       // Data Validation
-      if (this.newExample.languageName == ""){
-        this.addMessage = 'Language must be selected';
-        throw 'Language must be selected';
+      if (this.newExample.languageName == "") {
+        this.addMessage = "Language must be selected";
+        throw "Language must be selected";
       }
-      if (this.newExample.codeExample == ""){
-        this.addMessage = 'Code example cannot be blank';
-        throw 'Code example cannot be blank';
+      if (this.newExample.codeExample == "") {
+        this.addMessage = "Code example cannot be blank";
+        throw "Code example cannot be blank";
       }
-      if (this.newExample.title == ""){
-        this.addMessage = 'Title cannot be blank';
-        throw 'Title cannot be blank';
+      if (this.newExample.title == "") {
+        this.addMessage = "Title cannot be blank";
+        throw "Title cannot be blank";
       }
       // Convert Code to UTF16
       let exampleToSubmit = Object.assign({}, this.newExample);
@@ -601,103 +634,111 @@ export default {
       exampleToSubmit.codeExample = convertedCode.join(",");
       // Send new Example to Database
       if (this.$store.state.user.currentUser != {}) {
-      exampleService
-        .addExample(exampleToSubmit)
-        .then((response) => {
-          this.addGoodMessage = 'Code Example Added!';
-          this.toggleAdd();
-          if (response.status == 201) {
-            exampleService.retrieveExamples().then((response) => {
-              this.examples = response.data;
-            });
-          }
-        })
-        .catch((error) => {
-          this.toggleAdd();
-          this.addMessage = 'Code Example could not be added!';
-          console.log(error);
-        })}
+        exampleService
+          .addExample(exampleToSubmit)
+          .then((response) => {
+            this.addGoodMessage = "Code Example Added!";
+            this.toggleAdd();
+            if (response.status == 201) {
+              exampleService.retrieveExamples().then((response) => {
+                this.examples = response.data;
+              });
+            }
+          })
+          .catch((error) => {
+            this.toggleAdd();
+            this.addMessage = "Code Example could not be added!";
+            console.log(error);
+          });
+      }
     },
-    stageEditExample(exampleObject){
+    stageEditExample(exampleObject) {
       this.editExample.title = exampleObject.title;
       this.editExample.description = exampleObject.description;
       this.editExample.tags = exampleObject.tags;
       this.editExample.exampleId = exampleObject.exampleId;
       this.editExample.languageName = exampleObject.languageName;
       this.editExample.languageId = exampleObject.languageId;
-      this.editExample.codeExample = this.convertFromUTF16(exampleObject.codeExample);
+      this.editExample.codeExample = this.convertFromUTF16(
+        exampleObject.codeExample
+      );
       this.editExample.privateExample = exampleObject.privateExample;
       this.editExample.attribution = exampleObject.attribution;
       this.editExample.defaultExample = exampleObject.defaultExample;
       this.editExample.userId = this.$store.state.user.id;
       this.editExample.favoriteExample = exampleObject.favoriteExample;
       this.stageEdit = exampleObject.exampleId;
-
     },
     makeFavorite(exampleToFavorite) {
-      if (this.$store.state.user.currentUser != {}){
+      if (this.$store.state.user.currentUser != {}) {
         exampleService
           .toggleFavorite(exampleToFavorite.exampleId)
           .then((response) => {
-          if(response.status == 200) {
-            exampleService.retrieveExamples().then((response) => {
-              this.examples = response.data;
-            });
+            if (response.status == 200) {
+              exampleService.retrieveExamples().then((response) => {
+                this.examples = response.data;
+              });
             }
           })
           .catch((error) => {
-            this.addMessage = 'Code Example could not be favorited.';
+            this.addMessage = "Code Example could not be favorited.";
             console.log(error);
           });
-        }
-       },
+      }
+    },
     deleteExampleCheck(deleteId) {
-      if (this.$store.state.user.currentUser != {})
-      this.stageDelete = deleteId;
-      this.deleteMessage = 'Are you sure you want to delete the example called ' + this.examples.find( (thisExample) => thisExample.exampleId == this.stageDelete).title + '?';
-      scroll(0,0);
+      if (this.$store.state.user.currentUser != {}) this.stageDelete = deleteId;
+      this.deleteMessage =
+        "Are you sure you want to delete the example called " +
+        this.examples.find(
+          (thisExample) => thisExample.exampleId == this.stageDelete
+        ).title +
+        "?";
+      scroll(0, 0);
     },
     deleteExampleConfirm() {
       if (this.$store.state.user.currentUser != {}) {
-      exampleService
-        .deleteExample(this.stageDelete)
-        .then((response) => {
-          this.stageDelete = 0;
-          this.deleteMessage = '';
-          if (response.status == 204) {
-            this.addMessage = 'Code Example was deleted.';
-            exampleService.retrieveExamples().then((response) => {
-              this.examples = response.data;
-            });
-          }
-        })
-        .catch((error) => {
-          this.addMessage = 'Code Example was not deleted.';
-          console.log(error);
-        });
+        exampleService
+          .deleteExample(this.stageDelete)
+          .then((response) => {
+            this.stageDelete = 0;
+            this.deleteMessage = "";
+            if (response.status == 204) {
+              this.addMessage = "Code Example was deleted.";
+              exampleService.retrieveExamples().then((response) => {
+                this.examples = response.data;
+              });
+            }
+          })
+          .catch((error) => {
+            this.addMessage = "Code Example was not deleted.";
+            console.log(error);
+          });
       }
     },
     deleteExampleCancel() {
       this.stageDelete = 0;
-      this.deleteMessage = '';
+      this.deleteMessage = "";
     },
     confirmEdit() {
       // Data Validation
-      if (this.editExample.languageName == ""){
-        this.addMessage = 'Language must be selected';
-        throw 'Language must be selected';
+      if (this.editExample.languageName == "") {
+        this.addMessage = "Language must be selected";
+        throw "Language must be selected";
       }
-      if (this.editExample.codeExample == ""){
-        this.addMessage = 'Code example cannot be blank';
-        throw 'Code example cannot be blank';
+      if (this.editExample.codeExample == "") {
+        this.addMessage = "Code example cannot be blank";
+        throw "Code example cannot be blank";
       }
-      if (this.editExample.title == ""){
-        this.addMessage = 'Title cannot be blank';
-        throw 'Title cannot be blank';
+      if (this.editExample.title == "") {
+        this.addMessage = "Title cannot be blank";
+        throw "Title cannot be blank";
       }
       // Convert Code to UTF16
       let exampleToResubmit = Object.assign({}, this.editExample);
-      let bufferArray = new ArrayBuffer(exampleToResubmit.codeExample.length * 2);
+      let bufferArray = new ArrayBuffer(
+        exampleToResubmit.codeExample.length * 2
+      );
       let convertedCode = new Uint16Array(bufferArray);
       for (let i = 0; i < exampleToResubmit.codeExample.length; i++) {
         convertedCode[i] = exampleToResubmit.codeExample.charCodeAt(i);
@@ -705,39 +746,39 @@ export default {
       exampleToResubmit.codeExample = convertedCode.join(",");
       // Send new Example to Database
       if (this.$store.state.user.currentUser != {}) {
-      exampleService
-        .editExample(exampleToResubmit.exampleId, exampleToResubmit)
-        .then((response) => {
-          this.cancelEdit();
-          if (response.status == 200) {
-            this.addGoodMessage = 'Code Example was edited successfully.';
-            exampleService.retrieveExamples().then((response) => {
-              this.examples = response.data;
-            });
-          }
-        })
-        .catch((error) => {
-          this.addMessage = 'Code Example edit was not saved.';
-          console.log(error);
-        });
+        exampleService
+          .editExample(exampleToResubmit.exampleId, exampleToResubmit)
+          .then((response) => {
+            this.cancelEdit();
+            if (response.status == 200) {
+              this.addGoodMessage = "Code Example was edited successfully.";
+              exampleService.retrieveExamples().then((response) => {
+                this.examples = response.data;
+              });
+            }
+          })
+          .catch((error) => {
+            this.addMessage = "Code Example edit was not saved.";
+            console.log(error);
+          });
       }
     },
     copyToClipboard(exampleCode) {
-      var copyText = this.convertFromUTF16(exampleCode)
+      var copyText = this.convertFromUTF16(exampleCode);
 
       navigator.clipboard.writeText(copyText);
 
-      this.addGoodMessage = "Copied to clipboard!"
-    }
+      this.addGoodMessage = "Copied to clipboard!";
+    },
   }, // End of methods
   computed: {
     filterSnippets() {
       let filteredExamples = this.examples;
 
       if (this.filter.isFavorited === true) {
-        filteredExamples = filteredExamples.filter((example) => 
-        example.favoriteExample === true
-        )
+        filteredExamples = filteredExamples.filter(
+          (example) => example.favoriteExample === true
+        );
       }
 
       if (this.filter.title != "") {
@@ -761,8 +802,12 @@ export default {
         );
       }
 
-      filteredExamples = filteredExamples.sort((a,b) => 
-        (a.title.toLowerCase() < b.title.toLowerCase()) ? -1 : (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : 0
+      filteredExamples = filteredExamples.sort((a, b) =>
+        a.title.toLowerCase() < b.title.toLowerCase()
+          ? -1
+          : a.title.toLowerCase() > b.title.toLowerCase()
+          ? 1
+          : 0
       );
 
       return filteredExamples;
@@ -802,9 +847,10 @@ export default {
     },
     isLoggedIn() {
       if (this.$store.state.user.id > 0) {
-        return true
-      } return false
-    }
+        return true;
+      }
+      return false;
+    },
   }, // End of computed
   makeTagList() {
     let test = this.examples;
@@ -874,8 +920,12 @@ form {
 }
 
 #allCards {
-  margin-top: .7em;
-  margin-bottom: .7em;
+  margin-top: 0.7em;
+  margin-bottom: 0.7em;
+}
+
+#addExampleButton {
+  font-size: 1em;
 }
 </style>
 

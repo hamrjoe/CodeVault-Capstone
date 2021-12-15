@@ -15,7 +15,7 @@
 
 
      <b-navbar id="nope" class=" d-flex justify-content-between"  toggleable="lg" type="dark"  bg-transparent >
-    <img id="logo" src="../assets/testlogo.png"/>
+    <img id="logo" src="../assets/testlogo1.png"/>
         <div>
     
       <b-navbar-nav    >

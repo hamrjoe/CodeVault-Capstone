@@ -10,10 +10,10 @@
  
   <div class="boxed ">
 
-  <p class="p-1">Keeping track of your code is hard.</p>
+  <p class="p-1">Keeping track of your code is hard</p>
   <p class="p-2">We make it easy</p>
    <b-btn id="btn" variant="primary" class="routeLink" v-bind:to="{ name: 'examples-display' }" href="#" role="button">Explore</b-btn>
-  <p class="p-3"> Store, edit, categorize your code snippets. </p>
+  <p class="p-3"> Store, edit, categorize your code snippets </p>
   <p class="p-4">Share with other users</p>
 
 
