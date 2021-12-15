@@ -1,7 +1,7 @@
 <template>
   <div class="background">
     <div class="top">
-      <div class="d-flex row row-cols-1 row-cols-md-3 g-3">
+     
       <form class="d-flex flex-row justify-content-end">
         <input
           class="searchHeader flex-grow"
@@ -50,7 +50,7 @@
       </form>
 
       <div class="d-flex flex-row justify-content-end">
-        <h3 id="tagHeader">Search By Tags:</h3>
+        <h3 id="tagHeader">Search By Tags</h3>
       </div>
       <div id="pillcase">
         <div class="pillbox d-flex flex-row flex-wrap justify-content-end">
@@ -96,7 +96,7 @@
           >Cancel Add</b-button
         >
       </div>
-      </div>
+     
      
 
       <b-button
