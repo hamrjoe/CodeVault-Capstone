@@ -513,6 +513,14 @@ export default {
       },
     };
   }, // End of data
+  watch: {
+    addMessage: function () {
+      this.messageTimer()
+    },
+    addGoodMessage: function () {
+      this.messageTimer()
+    }
+  },
   created() {
     if (this.$store.state.user.currentUser != {}) {
       exampleService.retrieveExamples().then((response) => {
@@ -770,6 +778,14 @@ export default {
 
       this.addGoodMessage = "Copied to clipboard!";
     },
+    messageTimer() {
+      if (this.addGoodMessage != '' || this.addMessage != '') {
+        setTimeout(()=> {
+          this.addMessage = '';
+          this.addGoodMessage = '';
+        }, 4000)
+      }
+    }
   }, // End of methods
   computed: {
     filterSnippets() {
@@ -856,7 +872,7 @@ export default {
     let test = this.examples;
 
     return test;
-  },
+  }
 };
 </script>
 
