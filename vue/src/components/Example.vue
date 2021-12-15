@@ -111,6 +111,7 @@
         v-on:click="clearMessages"
         >{{ this.addGoodMessage }}</b-button
       >
+      <div>
       <b-button class="tagButton btn btn-danger" v-if="deleteMessage != ''">
         {{ this.deleteMessage }}</b-button
       >
@@ -127,6 +128,7 @@
         v-on:click="deleteExampleConfirm"
         >Confirm Delete</b-button
       >
+      </div>
 
       <!-- start all card display -->
       <div id="allCards" class="row row-cols-1 row-cols-md-3 g-3">
@@ -515,9 +517,11 @@ export default {
   }, // End of data
   watch: {
     addMessage: function () {
+      this.addGoodMessage = '';
       this.messageTimer()
     },
     addGoodMessage: function () {
+      this.addMessage = '';
       this.messageTimer()
     }
   },
