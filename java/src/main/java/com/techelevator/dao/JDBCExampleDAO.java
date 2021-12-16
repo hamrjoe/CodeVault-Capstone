@@ -75,10 +75,10 @@ public class JDBCExampleDAO implements ExampleDAO{
         }
 
         // inserting example into examples table
-        String exampleSql = "INSERT INTO examples(example_id, title, description, language_id, code_example, is_private, attribution, is_default, user_id) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String exampleSql = "INSERT INTO examples(example_id, title, description, language_id, code_example, is_private, attribution, is_default, user_id, is_favorite) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(exampleSql, exampleId, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.isPrivateExample(), example.getAttribution(), example.isDefaultExample(), example.getUserId());
+        jdbcTemplate.update(exampleSql, exampleId, example.getTitle(), example.getDescription(), example.getLanguageId(), example.getCodeExample(), example.isPrivateExample(), example.getAttribution(), example.isDefaultExample(), example.getUserId(), example.isFavoriteExample());
 
         // get list of tags from JSON, loop through, unpack them
 
